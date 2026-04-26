@@ -54,17 +54,25 @@ CEVAP (Türkçe):"""
                     {"role": "user", "content": user_prompt}
                 ],
                 "temperature": 0.3,
-                "max_tokens": 500
+                "max_tokens": 500,
+                "top_p": 1,
+                "stream": False
             }
             
             response = requests.post(self.api_url, json=payload, headers=headers, timeout=30)
-            response.raise_for_status()
+            
+            # Hata detaylarını göster
+            if response.status_code != 200:
+                error_detail = response.text
+                return f"API Hatası ({response.status_code}): {error_detail}"
             
             result = response.json()
             return result['choices'][0]['message']['content']
             
+        except requests.exceptions.RequestException as e:
+            return f"İstek hatası: {str(e)}"
         except Exception as e:
-            return f"API hatası: {e}\n\nLütfen GROQ_API_KEY'in doğru ayarlandığından emin olun."
+            return f"Beklenmeyen hata: {str(e)}"
     
     def check_model_availability(self) -> bool:
         """API'nin çalışıp çalışmadığını kontrol eder"""
