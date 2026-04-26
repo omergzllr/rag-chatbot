@@ -397,10 +397,7 @@ with col1:
     try:
         chatbot, USE_CLOUD = load_chatbot()
         
-        # Chat container
-        st.markdown('<div class="chat-container">', unsafe_allow_html=True)
-        
-        # Chat geçmişini göster
+        # Chat geçmişini göster (container olmadan)
         if st.session_state.chat_history:
             for message in st.session_state.chat_history:
                 if message['role'] == 'user':
@@ -425,9 +422,7 @@ with col1:
                     </div>
                     """, unsafe_allow_html=True)
         
-        st.markdown('</div>', unsafe_allow_html=True)
-        
-        # Soru girişi - Her zaman görünür
+        # Soru girişi
         st.markdown('<div class="input-container">', unsafe_allow_html=True)
         with st.form(key='question_form', clear_on_submit=True):
             user_input = st.text_area(
