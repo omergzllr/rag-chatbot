@@ -1,1 +1,2 @@
-# Streamlit Cloud için sistem paketleri
+# System packages for Streamlit Cloud
+# Leave empty if no system packages needed
