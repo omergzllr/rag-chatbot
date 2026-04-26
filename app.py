@@ -3,14 +3,21 @@ import json
 import os
 from datetime import datetime
 
-# Cloud deployment için LLM handler seçimi
-if os.getenv("GROQ_API_KEY"):
-    from llm_handler_cloud import LLMHandler
-    from rag_chatbot import RAGChatbot
-    USE_CLOUD = True
-else:
-    from rag_chatbot import RAGChatbot
-    USE_CLOUD = False
+# Performans için session state cache
+@st.cache_resource
+def load_chatbot():
+    """Chatbot'u cache'le - sadece bir kez yükle"""
+    if os.getenv("GROQ_API_KEY"):
+        from llm_handler_cloud import LLMHandler
+        from rag_chatbot import RAGChatbot
+        USE_CLOUD = True
+    else:
+        from rag_chatbot import RAGChatbot
+        USE_CLOUD = False
+    
+    chatbot = RAGChatbot()
+    chatbot.initialize()
+    return chatbot, USE_CLOUD
 
 # Sayfa yapılandırması
 st.set_page_config(
@@ -20,193 +27,277 @@ st.set_page_config(
     initial_sidebar_state="collapsed"
 )
 
-# Profesyonel CSS
+# Profesyonel CSS - Daha modern ve temiz
 st.markdown("""
 <style>
-    /* Ana tema */
+    /* Ana tema - Gradient arka plan */
     .main {
-        background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
-    }
-    
-    /* Başlık */
-    .main-header {
         background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-        padding: 2rem;
-        border-radius: 15px;
+        padding: 0;
+    }
+    
+    .block-container {
+        padding-top: 2rem;
+        padding-bottom: 2rem;
+        max-width: 1400px;
+    }
+    
+    /* Başlık kartı */
+    .header-card {
+        background: rgba(255, 255, 255, 0.95);
+        backdrop-filter: blur(10px);
+        padding: 2.5rem;
+        border-radius: 20px;
         text-align: center;
-        color: white;
         margin-bottom: 2rem;
-        box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        border: 1px solid rgba(255,255,255,0.2);
     }
     
-    .main-header h1 {
-        font-size: 2.5rem;
+    .header-card h1 {
+        font-size: 3rem;
         margin: 0;
-        font-weight: 700;
+        font-weight: 800;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        letter-spacing: -1px;
     }
     
-    .main-header p {
-        font-size: 1.1rem;
-        margin: 0.5rem 0 0 0;
-        opacity: 0.9;
+    .header-card p {
+        font-size: 1.2rem;
+        margin: 1rem 0 0 0;
+        color: #6c757d;
+        font-weight: 500;
     }
     
-    /* Chat container */
+    /* Chat container - Beyaz kart */
     .chat-container {
         background: white;
-        border-radius: 15px;
+        border-radius: 20px;
         padding: 2rem;
-        box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+        box-shadow: 0 10px 40px rgba(0,0,0,0.15);
         min-height: 500px;
         max-height: 600px;
         overflow-y: auto;
+        margin-bottom: 1.5rem;
     }
     
-    /* Mesajlar */
-    .chat-message {
-        padding: 1.2rem;
-        border-radius: 12px;
+    /* Hoş geldin mesajı */
+    .welcome-message {
+        text-align: center;
+        padding: 4rem 2rem;
+        color: #6c757d;
+    }
+    
+    .welcome-message h3 {
+        color: #667eea;
+        font-size: 2rem;
         margin-bottom: 1rem;
-        animation: fadeIn 0.3s ease-in;
+        font-weight: 700;
     }
     
-    @keyframes fadeIn {
-        from { opacity: 0; transform: translateY(10px); }
-        to { opacity: 1; transform: translateY(0); }
+    .welcome-message p {
+        font-size: 1.1rem;
+        line-height: 1.8;
+    }
+    
+    /* Mesajlar - Daha modern */
+    .chat-message {
+        padding: 1.5rem;
+        border-radius: 15px;
+        margin-bottom: 1.5rem;
+        animation: slideIn 0.3s ease-out;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+    }
+    
+    @keyframes slideIn {
+        from {
+            opacity: 0;
+            transform: translateY(20px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
     }
     
     .user-message {
         background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
         color: white;
-        margin-left: 20%;
-        box-shadow: 0 3px 10px rgba(102, 126, 234, 0.3);
+        margin-left: 15%;
+        border-bottom-right-radius: 5px;
     }
     
     .bot-message {
         background: #f8f9fa;
-        border: 1px solid #e9ecef;
-        margin-right: 20%;
-        box-shadow: 0 3px 10px rgba(0,0,0,0.05);
+        border: 2px solid #e9ecef;
+        margin-right: 15%;
+        border-bottom-left-radius: 5px;
     }
     
     .message-label {
-        font-weight: 600;
-        margin-bottom: 0.5rem;
+        font-weight: 700;
+        margin-bottom: 0.8rem;
         display: flex;
         align-items: center;
         gap: 0.5rem;
+        font-size: 0.95rem;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
     }
     
     .message-content {
-        line-height: 1.6;
+        line-height: 1.8;
+        font-size: 1.05rem;
     }
     
     /* Kaynaklar */
     .sources-container {
-        margin-top: 1rem;
-        padding-top: 1rem;
-        border-top: 1px solid #dee2e6;
+        margin-top: 1.5rem;
+        padding-top: 1.5rem;
+        border-top: 2px solid rgba(0,0,0,0.1);
     }
     
     .source-tag {
         display: inline-block;
         background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
         color: white;
-        padding: 0.3rem 0.8rem;
-        border-radius: 20px;
+        padding: 0.4rem 1rem;
+        border-radius: 25px;
         margin: 0.3rem;
         font-size: 0.85rem;
-        font-weight: 500;
-        box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        font-weight: 600;
+        box-shadow: 0 3px 10px rgba(245, 87, 108, 0.3);
+    }
+    
+    /* Input container */
+    .input-container {
+        background: white;
+        border-radius: 20px;
+        padding: 1.5rem;
+        box-shadow: 0 10px 40px rgba(0,0,0,0.15);
     }
     
     /* Input alanı */
     .stTextInput > div > div > input {
-        border-radius: 25px;
+        border-radius: 30px;
         border: 2px solid #e9ecef;
-        padding: 0.8rem 1.5rem;
-        font-size: 1rem;
+        padding: 1rem 1.5rem;
+        font-size: 1.05rem;
+        transition: all 0.3s ease;
     }
     
     .stTextInput > div > div > input:focus {
         border-color: #667eea;
-        box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        box-shadow: 0 0 0 4px rgba(102, 126, 234, 0.1);
     }
     
-    /* Butonlar */
+    /* Butonlar - Daha modern */
     .stButton > button {
-        border-radius: 25px;
-        padding: 0.6rem 2rem;
-        font-weight: 600;
+        border-radius: 30px;
+        padding: 0.8rem 2.5rem;
+        font-weight: 700;
         border: none;
         background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
         color: white;
-        box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+        box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
         transition: all 0.3s ease;
+        font-size: 1rem;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
     }
     
     .stButton > button:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
+        transform: translateY(-3px);
+        box-shadow: 0 10px 30px rgba(102, 126, 234, 0.5);
     }
     
-    /* Sidebar */
-    .css-1d391kg {
+    .stButton > button:active {
+        transform: translateY(-1px);
+    }
+    
+    /* Sidebar kartları */
+    .sidebar-card {
         background: white;
+        padding: 1.5rem;
+        border-radius: 15px;
+        box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+        margin-bottom: 1.5rem;
+    }
+    
+    .sidebar-card h3 {
+        color: #667eea;
+        font-size: 1.3rem;
+        margin-bottom: 1rem;
+        font-weight: 700;
     }
     
     /* Metrikler */
     .metric-card {
-        background: white;
-        padding: 1.5rem;
-        border-radius: 12px;
-        box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        padding: 2rem;
+        border-radius: 15px;
         text-align: center;
         margin-bottom: 1rem;
+        box-shadow: 0 5px 20px rgba(102, 126, 234, 0.3);
     }
     
     .metric-value {
-        font-size: 2.5rem;
-        font-weight: 700;
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
+        font-size: 3rem;
+        font-weight: 800;
+        color: white;
+        margin-bottom: 0.5rem;
     }
     
     .metric-label {
-        color: #6c757d;
-        font-size: 0.9rem;
-        margin-top: 0.5rem;
+        color: rgba(255,255,255,0.9);
+        font-size: 1rem;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 1px;
     }
     
     /* Örnek sorular */
-    .example-question {
+    .example-btn {
+        width: 100%;
+        text-align: left;
         background: white;
-        padding: 1rem;
-        border-radius: 10px;
-        margin-bottom: 0.8rem;
         border: 2px solid #e9ecef;
+        padding: 1rem 1.5rem;
+        border-radius: 12px;
+        margin-bottom: 0.8rem;
         cursor: pointer;
         transition: all 0.3s ease;
+        font-size: 0.95rem;
+        color: #495057;
     }
     
-    .example-question:hover {
+    .example-btn:hover {
         border-color: #667eea;
-        transform: translateX(5px);
-        box-shadow: 0 3px 10px rgba(102, 126, 234, 0.2);
+        background: #f8f9ff;
+        transform: translateX(8px);
+        box-shadow: 0 4px 15px rgba(102, 126, 234, 0.2);
     }
     
     /* Footer */
     .footer {
         text-align: center;
         padding: 2rem;
-        color: #6c757d;
+        color: white;
         margin-top: 3rem;
+        background: rgba(255,255,255,0.1);
+        backdrop-filter: blur(10px);
+        border-radius: 15px;
+    }
+    
+    .footer p {
+        margin: 0.5rem 0;
     }
     
     /* Scrollbar */
     ::-webkit-scrollbar {
-        width: 8px;
+        width: 10px;
     }
     
     ::-webkit-scrollbar-track {
@@ -218,81 +309,83 @@ st.markdown("""
         background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
         border-radius: 10px;
     }
+    
+    ::-webkit-scrollbar-thumb:hover {
+        background: linear-gradient(135deg, #764ba2 0%, #667eea 100%);
+    }
+    
+    /* Loading spinner */
+    .stSpinner > div {
+        border-top-color: #667eea !important;
+    }
+    
+    /* Success/Error messages */
+    .stSuccess, .stError, .stInfo {
+        border-radius: 12px;
+        padding: 1rem 1.5rem;
+    }
 </style>
 """, unsafe_allow_html=True)
 
 # Session state başlatma
-if 'chatbot' not in st.session_state:
-    st.session_state.chatbot = None
-    st.session_state.initialized = False
+if 'chat_history' not in st.session_state:
     st.session_state.chat_history = []
 
 # Başlık
 st.markdown("""
-<div class="main-header">
+<div class="header-card">
     <h1>⚖️ Hukuk Destek Danışmanı</h1>
     <p>Yapay Zeka Destekli Profesyonel Hukuki Danışmanlık Sistemi</p>
 </div>
 """, unsafe_allow_html=True)
 
 # Ana layout
-col1, col2 = st.columns([2, 1])
+col1, col2 = st.columns([2.5, 1])
 
 with col1:
-    # Chatbot'u başlat
-    if not st.session_state.initialized:
-        with st.spinner("🔄 Sistem başlatılıyor..."):
-            try:
-                st.session_state.chatbot = RAGChatbot()
-                success = st.session_state.chatbot.initialize()
-                if success:
-                    st.session_state.initialized = True
-                    st.success("✅ Sistem hazır! Sorularınızı sorabilirsiniz.", icon="✅")
-                else:
-                    st.error("❌ Sistem başlatılamadı. Lütfen yönetici ile iletişime geçin.", icon="❌")
-            except Exception as e:
-                st.error(f"❌ Hata: {str(e)}", icon="❌")
-    
-    # Chat container
-    st.markdown('<div class="chat-container">', unsafe_allow_html=True)
-    
-    if not st.session_state.chat_history:
-        st.markdown("""
-        <div style="text-align: center; padding: 3rem; color: #6c757d;">
-            <h3>👋 Hoş Geldiniz!</h3>
-            <p>Hukuki sorularınızı sormak için aşağıdaki alana yazabilir veya sağdaki örnek sorulardan birini seçebilirsiniz.</p>
-        </div>
-        """, unsafe_allow_html=True)
-    
-    # Chat geçmişini göster
-    for message in st.session_state.chat_history:
-        if message['role'] == 'user':
-            st.markdown(f"""
-            <div class="chat-message user-message">
-                <div class="message-label">👤 Siz</div>
-                <div class="message-content">{message["content"]}</div>
+    # Chatbot'u yükle (cache'den)
+    try:
+        chatbot, USE_CLOUD = load_chatbot()
+        
+        # Chat container
+        st.markdown('<div class="chat-container">', unsafe_allow_html=True)
+        
+        if not st.session_state.chat_history:
+            st.markdown("""
+            <div class="welcome-message">
+                <h3>👋 Hoş Geldiniz!</h3>
+                <p>Hukuki sorularınızı sormak için aşağıdaki alana yazabilir<br>veya sağdaki örnek sorulardan birini seçebilirsiniz.</p>
             </div>
             """, unsafe_allow_html=True)
-        else:
-            sources_html = ""
-            if message.get('sources'):
-                sources_html = '<div class="sources-container">📚 Kaynaklar: ' + \
-                              ''.join([f'<span class="source-tag">{s}</span>' for s in message['sources']]) + \
-                              '</div>'
-            
-            st.markdown(f"""
-            <div class="chat-message bot-message">
-                <div class="message-label">⚖️ Hukuk Danışmanı</div>
-                <div class="message-content">{message["content"]}</div>
-                {sources_html}
-            </div>
-            """, unsafe_allow_html=True)
-    
-    st.markdown('</div>', unsafe_allow_html=True)
-    
-    # Soru girişi
-    if st.session_state.initialized:
-        st.markdown("<br>", unsafe_allow_html=True)
+        
+        # Chat geçmişini göster
+        for message in st.session_state.chat_history:
+            if message['role'] == 'user':
+                st.markdown(f"""
+                <div class="chat-message user-message">
+                    <div class="message-label">👤 SİZ</div>
+                    <div class="message-content">{message["content"]}</div>
+                </div>
+                """, unsafe_allow_html=True)
+            else:
+                sources_html = ""
+                if message.get('sources'):
+                    sources_html = '<div class="sources-container">📚 Kaynaklar: ' + \
+                                  ''.join([f'<span class="source-tag">{s}</span>' for s in message['sources']]) + \
+                                  '</div>'
+                
+                st.markdown(f"""
+                <div class="chat-message bot-message">
+                    <div class="message-label">⚖️ HUKUK DANIŞMANI</div>
+                    <div class="message-content">{message["content"]}</div>
+                    {sources_html}
+                </div>
+                """, unsafe_allow_html=True)
+        
+        st.markdown('</div>', unsafe_allow_html=True)
+        
+        # Soru girişi
+        st.markdown('<div class="input-container">', unsafe_allow_html=True)
         with st.form(key='question_form', clear_on_submit=True):
             col_input, col_button = st.columns([4, 1])
             with col_input:
@@ -312,7 +405,7 @@ with col1:
                 
                 with st.spinner("💭 Yanıt hazırlanıyor..."):
                     try:
-                        result = st.session_state.chatbot.ask(user_input)
+                        result = chatbot.ask(user_input)
                         
                         st.session_state.chat_history.append({
                             'role': 'bot',
@@ -323,10 +416,14 @@ with col1:
                         st.rerun()
                     except Exception as e:
                         st.error(f"❌ Hata: {str(e)}", icon="❌")
+        st.markdown('</div>', unsafe_allow_html=True)
+        
+    except Exception as e:
+        st.error(f"❌ Sistem başlatılamadı: {str(e)}", icon="❌")
 
 with col2:
     # İstatistikler
-    st.markdown("### 📊 İstatistikler")
+    st.markdown('<div class="sidebar-card"><h3>📊 İstatistikler</h3></div>', unsafe_allow_html=True)
     
     if os.path.exists("questions_log.json"):
         with open("questions_log.json", 'r', encoding='utf-8') as f:
@@ -355,7 +452,7 @@ with col2:
     st.markdown("<br>", unsafe_allow_html=True)
     
     # Örnek sorular
-    st.markdown("### 💡 Örnek Sorular")
+    st.markdown('<div class="sidebar-card"><h3>💡 Örnek Sorular</h3></div>', unsafe_allow_html=True)
     
     example_questions = [
         "Kira artış oranı nasıl belirlenir?",
@@ -363,7 +460,11 @@ with col2:
         "Saklı pay nedir?",
         "Tenkis davası ne zaman açılır?",
         "Depozito en fazla kaç aylık kira olabilir?",
-        "Eşin miras payı ne kadardır?"
+        "Eşin miras payı ne kadardır?",
+        "10 yıllık kira süresinin sonunda ne olur?",
+        "Vasiyetname türleri nelerdir?",
+        "Yıllık izin hakkı nasıl hesaplanır?",
+        "Kıdem tazminatı ne zaman ödenir?"
     ]
     
     for question in example_questions:
@@ -375,7 +476,8 @@ with col2:
             
             with st.spinner("💭 Yanıt hazırlanıyor..."):
                 try:
-                    result = st.session_state.chatbot.ask(question)
+                    chatbot, _ = load_chatbot()
+                    result = chatbot.ask(question)
                     
                     st.session_state.chat_history.append({
                         'role': 'bot',

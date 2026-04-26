@@ -220,3 +220,125 @@ C: Kişilerin hakları:
 - Silme hakkı
 - Düzeltme hakkı
 - Erişim hakkı
+
+
+## EK SORULAR
+
+**S: Kira sözleşmesinin unsurları nelerdir?**
+C: Bir kira sözleşmesinin geçerli olabilmesi için üç unsur gerekir:
+- Kiralanan bir şeyin (taşınır veya taşınmaz) bulunması
+- Bunun kullanım hakkının kiracıya bırakılması
+- Karşılığında bir bedel (kira) ödenmesinin kararlaştırılması
+
+**S: Aidat ve yakıt gibi yan giderler nasıl belirlenir?**
+C: Aidat, yakıt gibi yan giderler sözleşmede açıkça belirtilmelidir. Aksi takdirde kiraya veren bu giderleri kiracıdan talep edemez.
+
+**S: Tasarruf edilebilir kısım nedir?**
+C: Mirasbırakan, saklı paylar dışındaki kısmı serbestçe tasarruf edebilir. Bu kısmı vasiyetname veya bağış yoluyla istediği kişiye devredebilir.
+
+**S: Çekişmeli boşanma ne zaman açılır?**
+C: Taraflar anlaşamazsa çekişmeli boşanma davası açılır. Bu davada delil ve tanık sunumu önemlidir.
+
+**S: Mal rejimi nedir?**
+C: Yasal mal rejimi "edinilmiş mallara katılma"dır. Boşanmada edinilmiş mallar paylaşılır, kişisel mallar (miras, hediye vb.) hariç tutulur.
+
+**S: İhbar tazminatı nedir?**
+C: İşten çıkarma öncesi işverenen belirli bir bildirim süresi tanıması gerekir. Bu süreye uyulmazsa ihbar tazminatı ödenir.
+
+**S: İlâmlı icra takibi nedir?**
+C: Mahkeme kararı (ilam) varsa alacaklı ilâmlı icra takibi başlatır. Bu durumda borçlu itiraz edemez ve doğrudan haciz aşamasına geçilir.
+
+**S: İflas nedir?**
+C: İflas, tacirler için geçerli bir tasfiye sürecidir. Mahkeme kararı ile tüm malvarlığı tasfiye edilir ve alacaklılara paylaştırılır.
+
+**S: Sözleşme serbestisi nedir?**
+C: Taraflar, kanuna aykırı olmamak şartıyla istedikleri şekilde sözleşme yapabilirler. Bu, sözleşme özgürlüğü ilkesidir.
+
+**S: Ortak alanlar kime aittir?**
+C: Kat mülkiyetinde ortak alanlar (merdiven, asansör, bahçe vb.) tüm maliklere aittir ve ortak kullanılır.
+
+**S: Ticari defterler tutulması zorunlu mudur?**
+C: Evet, tacirler için ticari defterlerin tutulması zorunludur. Bu defterler mahkemede delil olarak kullanılabilir.
+
+## 14. İDARE HUKUKU
+
+**S: İdari dava türleri nelerdir?**
+C: Başlıca idari dava türleri:
+- İptal davası (idari işlemin iptali)
+- Tam yargı davası (tazminat talebi)
+- İtiraz davası (vergi itirazları)
+
+**S: İdari işlem nedir?**
+C: İdari işlem, kamu kurumlarının tek taraflı irade beyanıyla hukuki sonuç doğuran işlemleridir. Örnek: ruhsat, izin, ceza.
+
+**S: İdari işleme karşı ne zaman dava açılabilir?**
+C: İdari işleme karşı tebliğ tarihinden itibaren 60 gün içinde dava açılabilir. Bazı özel durumlarda bu süre farklı olabilir.
+
+## 15. VERGİ HUKUKU
+
+**S: Gelir vergisi kimlere uygulanır?**
+C: Gelir vergisi, gerçek kişilerin bir takvim yılı içinde elde ettikleri gelirlere uygulanır. Maaş, kira, ticari kazanç gibi gelirler vergilendirilir.
+
+**S: KDV nedir?**
+C: Katma Değer Vergisi (KDV), mal ve hizmet teslimlerinde uygulanan dolaylı bir vergidir. Genel oran %20'dir, bazı ürünlerde indirimli oranlar uygulanır.
+
+**S: Vergi dairesi ile anlaşmazlık durumunda ne yapılır?**
+C: Vergi dairesi ile anlaşmazlık durumunda önce uzlaşma başvurusu yapılabilir. Uzlaşma sağlanamazsa vergi mahkemesinde dava açılabilir.
+
+## 16. TAŞINMAZ HUKUKU
+
+**S: Tapu iptali ve tescil davası nedir?**
+C: Tapu kaydının hatalı olduğu durumlarda, gerçek hak sahibi tapu iptali ve tescil davası açarak mülkiyetin kendi adına tescilini isteyebilir.
+
+**S: Zilyetlik nedir?**
+C: Zilyetlik, bir şey üzerinde fiili hakimiyettir. Malik olmadan da zilyetlik mümkündür. Zilyetlik hukuki korumadan yararlanır.
+
+**S: İrtifak hakkı nedir?**
+C: İrtifak hakkı, bir taşınmaz üzerinde başkasına tanınan sınırlı ayni haktır. Örnek: geçit hakkı, su hakkı.
+
+## 17. KAMU İHALE HUKUKU
+
+**S: İhale türleri nelerdir?**
+C: Başlıca ihale türleri:
+- Açık ihale (herkes katılabilir)
+- Belli istekliler arasında ihale
+- Pazarlık usulü (istisnai)
+- Doğrudan temin
+
+**S: İhaleye itiraz nasıl yapılır?**
+C: İhale kararına karşı 10 gün içinde ihale komisyonuna itiraz edilir. İtiraz reddedilirse Kamu İhale Kurumu'na başvurulabilir.
+
+## 18. SİGORTA HUKUKU
+
+**S: Sigorta sözleşmesi nedir?**
+C: Sigorta sözleşmesi, sigortalının prim ödemesi karşılığında sigortacının belirli risklere karşı teminat sağlamasıdır.
+
+**S: Sigorta türleri nelerdir?**
+C: Başlıca sigorta türleri:
+- Hayat sigortası
+- Sağlık sigortası
+- Kasko sigortası
+- Zorunlu trafik sigortası
+- Konut sigortası
+
+**S: Sigorta tazminatı ne zaman ödenir?**
+C: Sigorta tazminatı, sigorta poliçesinde belirtilen riskin gerçekleşmesi ve sigortalının bildirim yükümlülüğünü yerine getirmesi halinde ödenir.
+
+## 19. FIKRI MÜLKİYET HUKUKU
+
+**S: Telif hakkı nedir?**
+C: Telif hakkı, eser sahibinin eserinden doğan maddi ve manevi haklarıdır. Eser sahibi, eserini kullanma ve başkalarının kullanmasına izin verme hakkına sahiptir.
+
+**S: Patent nedir?**
+C: Patent, buluş sahibine buluşunu belirli bir süre münhasıran kullanma hakkı veren koruma belgesidir. Patent süresi 20 yıldır.
+
+**S: Marka nedir?**
+C: Marka, bir ürün veya hizmeti diğerlerinden ayırt etmeye yarayan işarettir. Tescilli marka sahibi, markayı münhasıran kullanma hakkına sahiptir.
+
+## 20. ÇEVRE HUKUKU
+
+**S: Çevre kirliliğinden kim sorumludur?**
+C: Çevre kirliliğine neden olan kişi veya kuruluş, kusursuz sorumluluk esasına göre sorumludur. Kirlilik giderilmeli ve zarar tazmin edilmelidir.
+
+**S: ÇED raporu nedir?**
+C: Çevresel Etki Değerlendirmesi (ÇED) raporu, büyük projelerin çevreye etkisini değerlendiren zorunlu bir rapordur. ÇED raporu olmadan proje başlatılamaz.
