@@ -27,40 +27,29 @@ st.set_page_config(
     initial_sidebar_state="collapsed"
 )
 
-# Ultra Profesyonel CSS - Animasyonlar ve efektler
+# Ultra Profesyonel Hukuk Asistanı Tasarımı - Koyu Tema
 st.markdown("""
 <style>
-    /* Ana tema - Animated gradient arka plan */
+    /* Ana tema - Koyu profesyonel arka plan */
     .main {
-        background: linear-gradient(-45deg, #667eea, #764ba2, #f093fb, #4facfe);
-        background-size: 400% 400%;
-        animation: gradientShift 15s ease infinite;
+        background: #0a0e27;
         padding: 0;
     }
     
-    @keyframes gradientShift {
-        0% { background-position: 0% 50%; }
-        50% { background-position: 100% 50%; }
-        100% { background-position: 0% 50%; }
-    }
-    
     .block-container {
-        padding-top: 2rem;
-        padding-bottom: 2rem;
-        max-width: 1400px;
+        padding-top: 3rem;
+        padding-bottom: 3rem;
+        max-width: 1200px;
     }
     
-    /* Başlık kartı - Floating animation */
+    /* Başlık - Minimal ve profesyonel */
     .header-card {
-        background: rgba(255, 255, 255, 0.98);
-        backdrop-filter: blur(20px);
-        padding: 2.5rem;
-        border-radius: 25px;
+        background: linear-gradient(135deg, #1a1f3a 0%, #2d3561 100%);
+        padding: 3rem 2rem;
+        border-radius: 16px;
         text-align: center;
-        margin-bottom: 2rem;
-        box-shadow: 0 25px 70px rgba(0,0,0,0.3);
-        border: 2px solid rgba(255,255,255,0.3);
-        animation: floatHeader 3s ease-in-out infinite;
+        margin-bottom: 3rem;
+        border: 1px solid rgba(255,255,255,0.1);
         position: relative;
         overflow: hidden;
     }
@@ -68,257 +57,49 @@ st.markdown("""
     .header-card::before {
         content: '';
         position: absolute;
-        top: -50%;
-        left: -50%;
-        width: 200%;
-        height: 200%;
-        background: linear-gradient(45deg, transparent, rgba(102, 126, 234, 0.1), transparent);
-        animation: shimmer 3s infinite;
-    }
-    
-    @keyframes floatHeader {
-        0%, 100% { transform: translateY(0px); }
-        50% { transform: translateY(-10px); }
-    }
-    
-    @keyframes shimmer {
-        0% { transform: translateX(-100%) translateY(-100%) rotate(45deg); }
-        100% { transform: translateX(100%) translateY(100%) rotate(45deg); }
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 2px;
+        background: linear-gradient(90deg, transparent, #4f46e5, transparent);
     }
     
     .header-card h1 {
-        font-size: 3rem;
-        margin: 0;
-        font-weight: 900;
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-        letter-spacing: -1px;
-        position: relative;
-        z-index: 1;
+        font-size: 2.5rem;
+        margin: 0 0 0.5rem 0;
+        font-weight: 700;
+        color: #ffffff;
+        letter-spacing: -0.5px;
     }
     
     .header-card p {
-        font-size: 1.2rem;
-        margin: 1rem 0 0 0;
-        color: #6c757d;
-        font-weight: 600;
-        position: relative;
-        z-index: 1;
-    }
-    
-    /* Mesajlar - Gelişmiş animasyonlar */
-    .chat-message {
-        padding: 1.8rem;
-        border-radius: 20px;
-        margin-bottom: 1.5rem;
-        animation: messageSlideIn 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
-        box-shadow: 0 5px 20px rgba(0,0,0,0.1);
-        position: relative;
-        overflow: hidden;
-        transition: all 0.3s ease;
-    }
-    
-    .chat-message:hover {
-        transform: translateY(-5px);
-        box-shadow: 0 10px 30px rgba(0,0,0,0.15);
-    }
-    
-    @keyframes messageSlideIn {
-        0% {
-            opacity: 0;
-            transform: translateX(-50px) scale(0.9);
-        }
-        100% {
-            opacity: 1;
-            transform: translateX(0) scale(1);
-        }
-    }
-    
-    .user-message {
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-        color: white;
-        margin-left: 10%;
-        border-bottom-right-radius: 8px;
-        animation: messageSlideInRight 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
-    }
-    
-    @keyframes messageSlideInRight {
-        0% {
-            opacity: 0;
-            transform: translateX(50px) scale(0.9);
-        }
-        100% {
-            opacity: 1;
-            transform: translateX(0) scale(1);
-        }
-    }
-    
-    .bot-message {
-        background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
-        border: 2px solid #e9ecef;
-        margin-right: 10%;
-        border-bottom-left-radius: 8px;
-    }
-    
-    .bot-message::before {
-        content: '';
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 4px;
-        height: 100%;
-        background: linear-gradient(180deg, #667eea 0%, #764ba2 100%);
-        animation: pulseBar 2s ease-in-out infinite;
-    }
-    
-    @keyframes pulseBar {
-        0%, 100% { opacity: 1; }
-        50% { opacity: 0.5; }
-    }
-    
-    .message-label {
-        font-weight: 800;
-        margin-bottom: 1rem;
-        display: flex;
-        align-items: center;
-        gap: 0.5rem;
-        font-size: 0.9rem;
-        text-transform: uppercase;
-        letter-spacing: 1px;
-    }
-    
-    .message-content {
-        line-height: 1.9;
-        font-size: 1.1rem;
-        font-weight: 500;
-    }
-    
-    /* Input container - Glow effect */
-    .input-container {
-        background: rgba(255, 255, 255, 0.98);
-        border-radius: 25px;
-        padding: 2rem;
-        box-shadow: 0 15px 50px rgba(0,0,0,0.2);
-        border: 2px solid rgba(255,255,255,0.3);
-        position: relative;
-        animation: glowPulse 3s ease-in-out infinite;
-    }
-    
-    @keyframes glowPulse {
-        0%, 100% {
-            box-shadow: 0 15px 50px rgba(102, 126, 234, 0.2);
-        }
-        50% {
-            box-shadow: 0 15px 60px rgba(102, 126, 234, 0.4);
-        }
-    }
-    
-    /* Textarea - Focus animation */
-    .stTextArea > div > div > textarea {
-        border-radius: 18px;
-        border: 3px solid #e9ecef;
-        padding: 1.5rem;
-        font-size: 1.1rem;
-        transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
-        resize: none;
-        font-weight: 500;
-    }
-    
-    .stTextArea > div > div > textarea:focus {
-        border-color: #667eea;
-        box-shadow: 0 0 0 6px rgba(102, 126, 234, 0.15);
-        transform: scale(1.02);
-    }
-    
-    .stTextArea > div > div > textarea::placeholder {
-        color: #adb5bd;
         font-size: 1rem;
+        margin: 0;
+        color: #94a3b8;
+        font-weight: 400;
+        line-height: 1.6;
     }
     
-    /* Butonlar - 3D effect */
-    .stButton > button {
-        border-radius: 35px;
-        padding: 1.2rem 3.5rem;
-        font-weight: 800;
-        border: none;
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-        color: white;
-        box-shadow: 0 8px 25px rgba(102, 126, 234, 0.4);
-        transition: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
-        font-size: 1.15rem;
-        text-transform: uppercase;
-        letter-spacing: 1px;
-        position: relative;
-        overflow: hidden;
+    .header-subtitle {
+        font-size: 0.9rem;
+        color: #64748b;
+        margin-top: 1rem;
+        font-style: italic;
     }
     
-    .stButton > button::before {
-        content: '';
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        width: 0;
-        height: 0;
-        border-radius: 50%;
-        background: rgba(255,255,255,0.3);
-        transform: translate(-50%, -50%);
-        transition: width 0.6s, height 0.6s;
-    }
-    
-    .stButton > button:hover::before {
-        width: 300px;
-        height: 300px;
-    }
-    
-    .stButton > button:hover {
-        transform: translateY(-5px) scale(1.05);
-        box-shadow: 0 15px 40px rgba(102, 126, 234, 0.6);
-    }
-    
-    .stButton > button:active {
-        transform: translateY(-2px) scale(1.02);
-    }
-    
-    /* Sidebar kartları - Hover effects */
-    .sidebar-card {
-        background: rgba(255, 255, 255, 0.95);
+    /* Mesajlar - Minimal ve temiz */
+    .chat-message {
         padding: 1.5rem;
-        border-radius: 20px;
-        box-shadow: 0 8px 25px rgba(0,0,0,0.1);
-        margin-bottom: 1.5rem;
-        transition: all 0.3s ease;
-        border: 2px solid rgba(255,255,255,0.3);
-    }
-    
-    .sidebar-card:hover {
-        transform: translateY(-5px);
-        box-shadow: 0 15px 40px rgba(0,0,0,0.15);
-    }
-    
-    .sidebar-card h3 {
-        color: #667eea;
-        font-size: 1.4rem;
+        border-radius: 12px;
         margin-bottom: 1rem;
-        font-weight: 800;
+        animation: fadeIn 0.4s ease-out;
+        border: 1px solid rgba(255,255,255,0.05);
     }
     
-    /* Footer - Fade in */
-    .footer {
-        text-align: center;
-        padding: 2.5rem;
-        color: white;
-        margin-top: 3rem;
-        background: rgba(255,255,255,0.15);
-        backdrop-filter: blur(15px);
-        border-radius: 20px;
-        animation: fadeInUp 1s ease-out;
-    }
-    
-    @keyframes fadeInUp {
+    @keyframes fadeIn {
         from {
             opacity: 0;
-            transform: translateY(30px);
+            transform: translateY(10px);
         }
         to {
             opacity: 1;
@@ -326,73 +107,207 @@ st.markdown("""
         }
     }
     
-    .footer p {
-        margin: 0.5rem 0;
+    .user-message {
+        background: linear-gradient(135deg, #4f46e5 0%, #6366f1 100%);
+        color: white;
+        margin-left: 15%;
+        border: none;
+    }
+    
+    .bot-message {
+        background: #1e293b;
+        color: #e2e8f0;
+        margin-right: 15%;
+        border-left: 3px solid #4f46e5;
+    }
+    
+    .message-label {
+        font-weight: 600;
+        margin-bottom: 0.8rem;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        font-size: 0.85rem;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        opacity: 0.8;
+    }
+    
+    .message-content {
+        line-height: 1.7;
+        font-size: 1rem;
+        font-weight: 400;
+    }
+    
+    /* Input container - Profesyonel */
+    .input-container {
+        background: #1e293b;
+        border-radius: 16px;
+        padding: 2rem;
+        border: 1px solid rgba(255,255,255,0.1);
+        margin-top: 2rem;
+    }
+    
+    /* Textarea - Koyu tema */
+    .stTextArea > div > div > textarea {
+        border-radius: 12px;
+        border: 1px solid rgba(255,255,255,0.1);
+        background: #0f172a;
+        color: #e2e8f0;
+        padding: 1.2rem;
+        font-size: 1rem;
+        transition: all 0.3s ease;
+        resize: none;
+        font-weight: 400;
+    }
+    
+    .stTextArea > div > div > textarea:focus {
+        border-color: #4f46e5;
+        box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1);
+        background: #1e293b;
+    }
+    
+    .stTextArea > div > div > textarea::placeholder {
+        color: #64748b;
+        font-size: 0.95rem;
+    }
+    
+    /* Butonlar - Minimal ve profesyonel */
+    .stButton > button {
+        border-radius: 10px;
+        padding: 0.9rem 2.5rem;
+        font-weight: 600;
+        border: none;
+        background: #4f46e5;
+        color: white;
+        transition: all 0.3s ease;
+        font-size: 1rem;
+        letter-spacing: 0.3px;
+    }
+    
+    .stButton > button:hover {
+        background: #6366f1;
+        transform: translateY(-2px);
+        box-shadow: 0 10px 25px rgba(79, 70, 229, 0.3);
+    }
+    
+    .stButton > button:active {
+        transform: translateY(0);
+    }
+    
+    /* Sidebar - Koyu tema */
+    .sidebar-card {
+        background: #1e293b;
+        padding: 1.5rem;
+        border-radius: 12px;
+        margin-bottom: 1.5rem;
+        border: 1px solid rgba(255,255,255,0.1);
+    }
+    
+    .sidebar-card h3 {
+        color: #ffffff;
+        font-size: 1.1rem;
+        margin-bottom: 1rem;
         font-weight: 600;
     }
     
-    /* Scrollbar - Gradient */
-    ::-webkit-scrollbar {
-        width: 12px;
-    }
-    
-    ::-webkit-scrollbar-track {
-        background: rgba(255,255,255,0.1);
-        border-radius: 10px;
-    }
-    
-    ::-webkit-scrollbar-thumb {
-        background: linear-gradient(180deg, #667eea 0%, #764ba2 100%);
+    /* Örnek soru butonları */
+    div[data-testid="column"] .stButton > button {
+        background: #1e293b;
+        color: #e2e8f0;
+        border: 1px solid rgba(255,255,255,0.1);
+        text-align: left;
+        padding: 0.9rem 1.2rem;
+        font-size: 0.9rem;
+        font-weight: 500;
         border-radius: 10px;
         transition: all 0.3s ease;
     }
     
+    div[data-testid="column"] .stButton > button:hover {
+        background: #2d3561;
+        border-color: #4f46e5;
+        transform: translateX(5px);
+    }
+    
+    /* Footer */
+    .footer {
+        text-align: center;
+        padding: 2rem;
+        color: #64748b;
+        margin-top: 3rem;
+        border-top: 1px solid rgba(255,255,255,0.1);
+    }
+    
+    .footer p {
+        margin: 0.3rem 0;
+        font-size: 0.9rem;
+    }
+    
+    .footer strong {
+        color: #94a3b8;
+    }
+    
+    /* Scrollbar - Koyu tema */
+    ::-webkit-scrollbar {
+        width: 10px;
+    }
+    
+    ::-webkit-scrollbar-track {
+        background: #0f172a;
+    }
+    
+    ::-webkit-scrollbar-thumb {
+        background: #4f46e5;
+        border-radius: 5px;
+    }
+    
     ::-webkit-scrollbar-thumb:hover {
-        background: linear-gradient(180deg, #764ba2 0%, #f093fb 100%);
+        background: #6366f1;
     }
     
-    /* Loading spinner - Custom */
+    /* Loading spinner */
     .stSpinner > div {
-        border-top-color: #667eea !important;
-        animation: spin 1s linear infinite;
+        border-top-color: #4f46e5 !important;
     }
     
-    @keyframes spin {
-        0% { transform: rotate(0deg); }
-        100% { transform: rotate(360deg); }
+    /* Success/Error messages - Koyu tema */
+    .stSuccess {
+        background: #1e293b;
+        color: #10b981;
+        border: 1px solid #10b981;
+        border-radius: 10px;
+        padding: 1rem;
     }
     
-    /* Success/Error messages - Slide in */
-    .stSuccess, .stError, .stInfo {
-        border-radius: 15px;
-        padding: 1.2rem 1.8rem;
-        animation: slideInLeft 0.5s ease-out;
-        font-weight: 600;
+    .stError {
+        background: #1e293b;
+        color: #ef4444;
+        border: 1px solid #ef4444;
+        border-radius: 10px;
+        padding: 1rem;
     }
     
-    @keyframes slideInLeft {
-        from {
-            opacity: 0;
-            transform: translateX(-50px);
-        }
-        to {
-            opacity: 1;
-            transform: translateX(0);
-        }
+    .stInfo {
+        background: #1e293b;
+        color: #3b82f6;
+        border: 1px solid #3b82f6;
+        border-radius: 10px;
+        padding: 1rem;
     }
     
-    /* RESPONSIVE - Mobil uyumluluk */
+    /* RESPONSIVE */
     @media (max-width: 768px) {
         .header-card h1 {
-            font-size: 2rem;
+            font-size: 1.8rem;
         }
         
         .header-card p {
-            font-size: 1rem;
+            font-size: 0.9rem;
         }
         
         .header-card {
-            padding: 1.5rem;
+            padding: 2rem 1.5rem;
         }
         
         .input-container {
@@ -408,17 +323,13 @@ st.markdown("""
             padding: 1.2rem;
         }
         
-        .message-content {
-            font-size: 1rem;
-        }
-        
         .stButton > button {
-            padding: 1rem 2rem;
-            font-size: 1rem;
+            padding: 0.8rem 2rem;
+            font-size: 0.95rem;
         }
         
         .sidebar-card {
-            padding: 1rem;
+            padding: 1.2rem;
         }
     }
 </style>
@@ -432,7 +343,8 @@ if 'chat_history' not in st.session_state:
 st.markdown("""
 <div class="header-card">
     <h1>⚖️ Hukuk Destek Danışmanı</h1>
-    <p>Yapay Zeka Destekli Profesyonel Hukuki Danışmanlık Sistemi</p>
+    <p>Hukukçular için özel olarak tasarlanmış yapay zeka destekli asistan</p>
+    <p class="header-subtitle">İstenildiği şekilde eğitilebilir, özelleştirilebilir ve büyütülebilir AI teknolojisi</p>
 </div>
 """, unsafe_allow_html=True)
 
@@ -550,9 +462,9 @@ with col2:
 st.markdown("""
 <div class="footer">
     <p><strong>⚖️ Hukuk Destek Danışmanı</strong></p>
-    <p style='font-size: 0.9rem; margin-top: 0.5rem;'>
-        Bu sistem yapay zeka destekli bir bilgilendirme aracıdır.<br>
-        Profesyonel hukuki danışmanlık yerine geçmez.
+    <p>Hukukçular için özel olarak tasarlanmış yapay zeka destekli asistan</p>
+    <p style='font-size: 0.85rem; margin-top: 1rem; opacity: 0.7;'>
+        İstenildiği şekilde eğitilebilir • Özelleştirilebilir • Büyütülebilir AI teknolojisi
     </p>
 </div>
 """, unsafe_allow_html=True)
