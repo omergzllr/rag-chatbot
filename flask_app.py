@@ -1,8 +1,16 @@
 from flask import Flask, render_template, request, jsonify
 from functools import lru_cache
+from dotenv import load_dotenv
 import os
 
+load_dotenv()  # .env dosyasından key'leri yükle
+
 app = Flask(__name__)
+
+# Debug modda watchdog'un çok fazla dosya izlemesini engelle
+import logging
+log = logging.getLogger('werkzeug')
+log.setLevel(logging.ERROR)
 
 EXAMPLE_QUESTIONS = [
     "Kira artış oranı nasıl belirlenir?",
@@ -53,7 +61,9 @@ def api_chat():
         result = chatbot.ask(question)
         return jsonify({'answer': result['answer']})
     except Exception as e:
-        return jsonify({'error': str(e)}), 500
+        import traceback
+        traceback.print_exc()
+        return jsonify({'answer': f'Sistem hatası: {str(e)}'}), 200
 
 @app.route('/api/contact', methods=['POST'])
 def api_contact():
@@ -62,4 +72,4 @@ def api_contact():
     return jsonify({'success': True, 'message': 'Mesajınız alındı!'})
 
 if __name__ == '__main__':
-    app.run(debug=True, port=5000)
+    app.run(debug=False, port=5000)  # debug=False - watchdog reload sorunu çözülür

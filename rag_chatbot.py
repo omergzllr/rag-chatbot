@@ -2,9 +2,11 @@ from typing import Dict
 import json
 import os
 from datetime import datetime
-from typing import Dict
+from dotenv import load_dotenv
 from pdf_processor import PDFProcessor
 from vector_store import VectorStore
+
+load_dotenv()  # .env dosyasını yükle
 
 # Cloud deployment için LLM handler seçimi - lazy import
 LLMHandler = None

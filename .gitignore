@@ -21,6 +21,9 @@ models/
 # Streamlit
 .streamlit/secrets.toml
 
+# Environment variables
+.env
+
 # IDE
 .vscode/
 .idea/
