@@ -4,7 +4,7 @@ import os
 from datetime import datetime
 
 # Cloud deployment için LLM handler seçimi
-if os.getenv("OPENAI_API_KEY"):
+if os.getenv("GROQ_API_KEY"):
     from llm_handler_cloud import LLMHandler
     from rag_chatbot import RAGChatbot
     USE_CLOUD = True

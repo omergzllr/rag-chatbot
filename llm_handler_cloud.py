@@ -1,21 +1,23 @@
 """
-Cloud deployment için OpenAI kullanan LLM Handler
+Cloud deployment için Groq API kullanan LLM Handler (Ücretsiz ve Hızlı)
 """
 import os
 from typing import List, Dict
-from openai import OpenAI
+import requests
 
 
 class LLMHandler:
-    """OpenAI API ile LLM etkileşimi"""
+    """Groq API ile LLM etkileşimi"""
     
     def __init__(self):
-        api_key = os.getenv("OPENAI_API_KEY")
+        # Groq API key - ücretsiz: https://console.groq.com/keys
+        api_key = os.getenv("GROQ_API_KEY")
         if not api_key:
-            raise ValueError("OPENAI_API_KEY environment variable bulunamadı!")
+            raise ValueError("GROQ_API_KEY environment variable bulunamadı!")
         
-        self.client = OpenAI(api_key=api_key)
-        self.model = "gpt-3.5-turbo"
+        self.api_key = api_key
+        self.model = "llama-3.1-70b-versatile"  # Ücretsiz ve güçlü model
+        self.api_url = "https://api.groq.com/openai/v1/chat/completions"
     
     def generate_response(self, query: str, context_docs: List[Dict]) -> str:
         """Bağlam ve sorguya göre cevap üretir"""
@@ -27,7 +29,7 @@ class LLMHandler:
         ])
         
         # Prompt oluştur
-        system_prompt = """Sen bir hukuk asistanısın. Aşağıdaki belgelerden yararlanarak soruyu kısa ve net şekilde yanıtla.
+        system_prompt = """Sen bir hukuk asistanısın. Aşağıdaki belgelerden yararlanarak soruyu Türkçe olarak kısa ve net şekilde yanıtla.
 
 ÖNEMLİ: Eğer belgelerde cevap bulamazsan şunu yaz: "Bu konu hakkında belgelerimizde bilgi bulunamadı. Konu araştırılıp sisteme eklenecektir."
 """
@@ -37,26 +39,41 @@ class LLMHandler:
 
 SORU: {query}
 
-CEVAP:"""
+CEVAP (Türkçe):"""
         
         try:
-            response = self.client.chat.completions.create(
-                model=self.model,
-                messages=[
+            headers = {
+                "Authorization": f"Bearer {self.api_key}",
+                "Content-Type": "application/json"
+            }
+            
+            payload = {
+                "model": self.model,
+                "messages": [
                     {"role": "system", "content": system_prompt},
                     {"role": "user", "content": user_prompt}
                 ],
-                temperature=0.3,
-                max_tokens=500
-            )
-            return response.choices[0].message.content
+                "temperature": 0.3,
+                "max_tokens": 500
+            }
+            
+            response = requests.post(self.api_url, json=payload, headers=headers, timeout=30)
+            response.raise_for_status()
+            
+            result = response.json()
+            return result['choices'][0]['message']['content']
+            
         except Exception as e:
-            return f"API hatası: {e}\n\nLütfen OPENAI_API_KEY'in doğru ayarlandığından emin olun."
+            return f"API hatası: {e}\n\nLütfen GROQ_API_KEY'in doğru ayarlandığından emin olun."
     
     def check_model_availability(self) -> bool:
         """API'nin çalışıp çalışmadığını kontrol eder"""
         try:
-            self.client.models.list()
-            return True
+            headers = {
+                "Authorization": f"Bearer {self.api_key}",
+                "Content-Type": "application/json"
+            }
+            response = requests.get("https://api.groq.com/openai/v1/models", headers=headers, timeout=10)
+            return response.status_code == 200
         except:
             return False

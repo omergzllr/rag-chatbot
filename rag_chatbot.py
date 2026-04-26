@@ -20,7 +20,7 @@ class RAGChatbot:
         # LLM handler'ı lazy load et
         global LLMHandler
         if LLMHandler is None:
-            if os.getenv("OPENAI_API_KEY"):
+            if os.getenv("GROQ_API_KEY"):
                 from llm_handler_cloud import LLMHandler as CloudHandler
                 LLMHandler = CloudHandler
             else:
