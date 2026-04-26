@@ -27,7 +27,7 @@ st.set_page_config(
     initial_sidebar_state="collapsed"
 )
 
-# Profesyonel CSS - Daha modern ve temiz
+# Profesyonel CSS - Responsive ve modern
 st.markdown("""
 <style>
     /* Ana tema - Gradient arka plan */
@@ -77,8 +77,8 @@ st.markdown("""
         border-radius: 20px;
         padding: 2rem;
         box-shadow: 0 10px 40px rgba(0,0,0,0.15);
-        min-height: 500px;
-        max-height: 600px;
+        min-height: 400px;
+        max-height: 500px;
         overflow-y: auto;
         margin-bottom: 1.5rem;
     }
@@ -86,7 +86,7 @@ st.markdown("""
     /* Hoş geldin mesajı */
     .welcome-message {
         text-align: center;
-        padding: 4rem 2rem;
+        padding: 3rem 2rem;
         color: #6c757d;
     }
     
@@ -125,14 +125,14 @@ st.markdown("""
     .user-message {
         background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
         color: white;
-        margin-left: 15%;
+        margin-left: 10%;
         border-bottom-right-radius: 5px;
     }
     
     .bot-message {
         background: #f8f9fa;
         border: 2px solid #e9ecef;
-        margin-right: 15%;
+        margin-right: 10%;
         border-bottom-left-radius: 5px;
     }
     
@@ -171,39 +171,45 @@ st.markdown("""
         box-shadow: 0 3px 10px rgba(245, 87, 108, 0.3);
     }
     
-    /* Input container */
+    /* Input container - Daha belirgin */
     .input-container {
         background: white;
         border-radius: 20px;
-        padding: 1.5rem;
+        padding: 2rem;
         box-shadow: 0 10px 40px rgba(0,0,0,0.15);
     }
     
-    /* Input alanı */
-    .stTextInput > div > div > input {
-        border-radius: 30px;
-        border: 2px solid #e9ecef;
-        padding: 1rem 1.5rem;
-        font-size: 1.05rem;
+    /* Textarea - Daha büyük */
+    .stTextArea > div > div > textarea {
+        border-radius: 15px;
+        border: 3px solid #e9ecef;
+        padding: 1.2rem;
+        font-size: 1.1rem;
         transition: all 0.3s ease;
+        resize: none;
     }
     
-    .stTextInput > div > div > input:focus {
+    .stTextArea > div > div > textarea:focus {
         border-color: #667eea;
         box-shadow: 0 0 0 4px rgba(102, 126, 234, 0.1);
     }
     
-    /* Butonlar - Daha modern */
+    .stTextArea > div > div > textarea::placeholder {
+        color: #adb5bd;
+        font-size: 1rem;
+    }
+    
+    /* Butonlar - Daha büyük ve belirgin */
     .stButton > button {
         border-radius: 30px;
-        padding: 0.8rem 2.5rem;
+        padding: 1rem 3rem;
         font-weight: 700;
         border: none;
         background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
         color: white;
         box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
         transition: all 0.3s ease;
-        font-size: 1rem;
+        font-size: 1.1rem;
         text-transform: uppercase;
         letter-spacing: 0.5px;
     }
@@ -258,28 +264,6 @@ st.markdown("""
         letter-spacing: 1px;
     }
     
-    /* Örnek sorular */
-    .example-btn {
-        width: 100%;
-        text-align: left;
-        background: white;
-        border: 2px solid #e9ecef;
-        padding: 1rem 1.5rem;
-        border-radius: 12px;
-        margin-bottom: 0.8rem;
-        cursor: pointer;
-        transition: all 0.3s ease;
-        font-size: 0.95rem;
-        color: #495057;
-    }
-    
-    .example-btn:hover {
-        border-color: #667eea;
-        background: #f8f9ff;
-        transform: translateX(8px);
-        box-shadow: 0 4px 15px rgba(102, 126, 234, 0.2);
-    }
-    
     /* Footer */
     .footer {
         text-align: center;
@@ -324,6 +308,72 @@ st.markdown("""
         border-radius: 12px;
         padding: 1rem 1.5rem;
     }
+    
+    /* RESPONSIVE - Mobil uyumluluk */
+    @media (max-width: 768px) {
+        .header-card h1 {
+            font-size: 2rem;
+        }
+        
+        .header-card p {
+            font-size: 1rem;
+        }
+        
+        .header-card {
+            padding: 1.5rem;
+        }
+        
+        .chat-container {
+            padding: 1rem;
+            min-height: 300px;
+            max-height: 400px;
+        }
+        
+        .input-container {
+            padding: 1.5rem;
+        }
+        
+        .user-message {
+            margin-left: 0;
+        }
+        
+        .bot-message {
+            margin-right: 0;
+        }
+        
+        .chat-message {
+            padding: 1rem;
+        }
+        
+        .message-content {
+            font-size: 1rem;
+        }
+        
+        .stButton > button {
+            padding: 0.8rem 2rem;
+            font-size: 1rem;
+        }
+        
+        .welcome-message {
+            padding: 2rem 1rem;
+        }
+        
+        .welcome-message h3 {
+            font-size: 1.5rem;
+        }
+        
+        .welcome-message p {
+            font-size: 1rem;
+        }
+        
+        .metric-value {
+            font-size: 2rem;
+        }
+        
+        .sidebar-card {
+            padding: 1rem;
+        }
+    }
 </style>
 """, unsafe_allow_html=True)
 
@@ -339,8 +389,8 @@ st.markdown("""
 </div>
 """, unsafe_allow_html=True)
 
-# Ana layout
-col1, col2 = st.columns([2.5, 1])
+# Ana layout - Responsive
+col1, col2 = st.columns([2.5, 1], gap="large")
 
 with col1:
     # Chatbot'u yükle (cache'den)
@@ -354,7 +404,7 @@ with col1:
             st.markdown("""
             <div class="welcome-message">
                 <h3>👋 Hoş Geldiniz!</h3>
-                <p>Hukuki sorularınızı sormak için aşağıdaki alana yazabilir<br>veya sağdaki örnek sorulardan birini seçebilirsiniz.</p>
+                <p>Hukuki sorularınızı sormak için aşağıdaki alana yazın<br>veya sağdaki örnek sorulardan birini seçin.</p>
             </div>
             """, unsafe_allow_html=True)
         
@@ -384,18 +434,19 @@ with col1:
         
         st.markdown('</div>', unsafe_allow_html=True)
         
-        # Soru girişi
+        # Soru girişi - Ortada
         st.markdown('<div class="input-container">', unsafe_allow_html=True)
         with st.form(key='question_form', clear_on_submit=True):
-            col_input, col_button = st.columns([4, 1])
-            with col_input:
-                user_input = st.text_input(
-                    "Sorunuz",
-                    placeholder="Hukuki sorunuzu buraya yazın...",
-                    label_visibility="collapsed"
-                )
-            with col_button:
-                submit_button = st.form_submit_button("📤 Gönder", use_container_width=True)
+            user_input = st.text_area(
+                "Sorunuz",
+                placeholder="Hukuki sorunuzu buraya yazın...\n\nÖrnek: Kira artış oranı nasıl belirlenir?",
+                height=100,
+                label_visibility="collapsed"
+            )
+            
+            col_btn1, col_btn2, col_btn3 = st.columns([1, 2, 1])
+            with col_btn2:
+                submit_button = st.form_submit_button("📤 Soru Sor", use_container_width=True)
             
             if submit_button and user_input:
                 st.session_state.chat_history.append({
