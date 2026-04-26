@@ -27,13 +27,21 @@ st.set_page_config(
     initial_sidebar_state="collapsed"
 )
 
-# Profesyonel CSS - Responsive ve modern
+# Ultra Profesyonel CSS - Animasyonlar ve efektler
 st.markdown("""
 <style>
-    /* Ana tema - Gradient arka plan */
+    /* Ana tema - Animated gradient arka plan */
     .main {
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        background: linear-gradient(-45deg, #667eea, #764ba2, #f093fb, #4facfe);
+        background-size: 400% 400%;
+        animation: gradientShift 15s ease infinite;
         padding: 0;
+    }
+    
+    @keyframes gradientShift {
+        0% { background-position: 0% 50%; }
+        50% { background-position: 100% 50%; }
+        100% { background-position: 0% 50%; }
     }
     
     .block-container {
@@ -42,83 +50,88 @@ st.markdown("""
         max-width: 1400px;
     }
     
-    /* Başlık kartı */
+    /* Başlık kartı - Floating animation */
     .header-card {
-        background: rgba(255, 255, 255, 0.95);
-        backdrop-filter: blur(10px);
+        background: rgba(255, 255, 255, 0.98);
+        backdrop-filter: blur(20px);
         padding: 2.5rem;
-        border-radius: 20px;
+        border-radius: 25px;
         text-align: center;
         margin-bottom: 2rem;
-        box-shadow: 0 20px 60px rgba(0,0,0,0.3);
-        border: 1px solid rgba(255,255,255,0.2);
+        box-shadow: 0 25px 70px rgba(0,0,0,0.3);
+        border: 2px solid rgba(255,255,255,0.3);
+        animation: floatHeader 3s ease-in-out infinite;
+        position: relative;
+        overflow: hidden;
+    }
+    
+    .header-card::before {
+        content: '';
+        position: absolute;
+        top: -50%;
+        left: -50%;
+        width: 200%;
+        height: 200%;
+        background: linear-gradient(45deg, transparent, rgba(102, 126, 234, 0.1), transparent);
+        animation: shimmer 3s infinite;
+    }
+    
+    @keyframes floatHeader {
+        0%, 100% { transform: translateY(0px); }
+        50% { transform: translateY(-10px); }
+    }
+    
+    @keyframes shimmer {
+        0% { transform: translateX(-100%) translateY(-100%) rotate(45deg); }
+        100% { transform: translateX(100%) translateY(100%) rotate(45deg); }
     }
     
     .header-card h1 {
         font-size: 3rem;
         margin: 0;
-        font-weight: 800;
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        font-weight: 900;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
         letter-spacing: -1px;
+        position: relative;
+        z-index: 1;
     }
     
     .header-card p {
         font-size: 1.2rem;
         margin: 1rem 0 0 0;
         color: #6c757d;
-        font-weight: 500;
+        font-weight: 600;
+        position: relative;
+        z-index: 1;
     }
     
-    /* Chat container - Beyaz kart */
-    .chat-container {
-        background: white;
-        border-radius: 20px;
-        padding: 2rem;
-        box-shadow: 0 10px 40px rgba(0,0,0,0.15);
-        min-height: 200px;
-        max-height: 400px;
-        overflow-y: auto;
-        margin-bottom: 1.5rem;
-    }
-    
-    /* Hoş geldin mesajı */
-    .welcome-message {
-        text-align: center;
-        padding: 3rem 2rem;
-        color: #6c757d;
-    }
-    
-    .welcome-message h3 {
-        color: #667eea;
-        font-size: 2rem;
-        margin-bottom: 1rem;
-        font-weight: 700;
-    }
-    
-    .welcome-message p {
-        font-size: 1.1rem;
-        line-height: 1.8;
-    }
-    
-    /* Mesajlar - Daha modern */
+    /* Mesajlar - Gelişmiş animasyonlar */
     .chat-message {
-        padding: 1.5rem;
-        border-radius: 15px;
+        padding: 1.8rem;
+        border-radius: 20px;
         margin-bottom: 1.5rem;
-        animation: slideIn 0.3s ease-out;
-        box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+        animation: messageSlideIn 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+        box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+        position: relative;
+        overflow: hidden;
+        transition: all 0.3s ease;
     }
     
-    @keyframes slideIn {
-        from {
+    .chat-message:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+    }
+    
+    @keyframes messageSlideIn {
+        0% {
             opacity: 0;
-            transform: translateY(20px);
+            transform: translateX(-50px) scale(0.9);
         }
-        to {
+        100% {
             opacity: 1;
-            transform: translateY(0);
+            transform: translateX(0) scale(1);
         }
     }
     
@@ -126,72 +139,96 @@ st.markdown("""
         background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
         color: white;
         margin-left: 10%;
-        border-bottom-right-radius: 5px;
+        border-bottom-right-radius: 8px;
+        animation: messageSlideInRight 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+    }
+    
+    @keyframes messageSlideInRight {
+        0% {
+            opacity: 0;
+            transform: translateX(50px) scale(0.9);
+        }
+        100% {
+            opacity: 1;
+            transform: translateX(0) scale(1);
+        }
     }
     
     .bot-message {
-        background: #f8f9fa;
+        background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
         border: 2px solid #e9ecef;
         margin-right: 10%;
-        border-bottom-left-radius: 5px;
+        border-bottom-left-radius: 8px;
+    }
+    
+    .bot-message::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 4px;
+        height: 100%;
+        background: linear-gradient(180deg, #667eea 0%, #764ba2 100%);
+        animation: pulseBar 2s ease-in-out infinite;
+    }
+    
+    @keyframes pulseBar {
+        0%, 100% { opacity: 1; }
+        50% { opacity: 0.5; }
     }
     
     .message-label {
-        font-weight: 700;
-        margin-bottom: 0.8rem;
+        font-weight: 800;
+        margin-bottom: 1rem;
         display: flex;
         align-items: center;
         gap: 0.5rem;
-        font-size: 0.95rem;
+        font-size: 0.9rem;
         text-transform: uppercase;
-        letter-spacing: 0.5px;
+        letter-spacing: 1px;
     }
     
     .message-content {
-        line-height: 1.8;
-        font-size: 1.05rem;
-    }
-    
-    /* Kaynaklar */
-    .sources-container {
-        margin-top: 1.5rem;
-        padding-top: 1.5rem;
-        border-top: 2px solid rgba(0,0,0,0.1);
-    }
-    
-    .source-tag {
-        display: inline-block;
-        background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
-        color: white;
-        padding: 0.4rem 1rem;
-        border-radius: 25px;
-        margin: 0.3rem;
-        font-size: 0.85rem;
-        font-weight: 600;
-        box-shadow: 0 3px 10px rgba(245, 87, 108, 0.3);
-    }
-    
-    /* Input container - Daha belirgin */
-    .input-container {
-        background: white;
-        border-radius: 20px;
-        padding: 2rem;
-        box-shadow: 0 10px 40px rgba(0,0,0,0.15);
-    }
-    
-    /* Textarea - Daha büyük */
-    .stTextArea > div > div > textarea {
-        border-radius: 15px;
-        border: 3px solid #e9ecef;
-        padding: 1.2rem;
+        line-height: 1.9;
         font-size: 1.1rem;
-        transition: all 0.3s ease;
+        font-weight: 500;
+    }
+    
+    /* Input container - Glow effect */
+    .input-container {
+        background: rgba(255, 255, 255, 0.98);
+        border-radius: 25px;
+        padding: 2rem;
+        box-shadow: 0 15px 50px rgba(0,0,0,0.2);
+        border: 2px solid rgba(255,255,255,0.3);
+        position: relative;
+        animation: glowPulse 3s ease-in-out infinite;
+    }
+    
+    @keyframes glowPulse {
+        0%, 100% {
+            box-shadow: 0 15px 50px rgba(102, 126, 234, 0.2);
+        }
+        50% {
+            box-shadow: 0 15px 60px rgba(102, 126, 234, 0.4);
+        }
+    }
+    
+    /* Textarea - Focus animation */
+    .stTextArea > div > div > textarea {
+        border-radius: 18px;
+        border: 3px solid #e9ecef;
+        padding: 1.5rem;
+        font-size: 1.1rem;
+        transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
         resize: none;
+        font-weight: 500;
     }
     
     .stTextArea > div > div > textarea:focus {
         border-color: #667eea;
-        box-shadow: 0 0 0 4px rgba(102, 126, 234, 0.1);
+        box-shadow: 0 0 0 6px rgba(102, 126, 234, 0.15);
+        transform: scale(1.02);
     }
     
     .stTextArea > div > div > textarea::placeholder {
@@ -199,114 +236,149 @@ st.markdown("""
         font-size: 1rem;
     }
     
-    /* Butonlar - Daha büyük ve belirgin */
+    /* Butonlar - 3D effect */
     .stButton > button {
-        border-radius: 30px;
-        padding: 1rem 3rem;
-        font-weight: 700;
+        border-radius: 35px;
+        padding: 1.2rem 3.5rem;
+        font-weight: 800;
         border: none;
         background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
         color: white;
-        box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
-        transition: all 0.3s ease;
-        font-size: 1.1rem;
+        box-shadow: 0 8px 25px rgba(102, 126, 234, 0.4);
+        transition: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+        font-size: 1.15rem;
         text-transform: uppercase;
-        letter-spacing: 0.5px;
+        letter-spacing: 1px;
+        position: relative;
+        overflow: hidden;
+    }
+    
+    .stButton > button::before {
+        content: '';
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 0;
+        height: 0;
+        border-radius: 50%;
+        background: rgba(255,255,255,0.3);
+        transform: translate(-50%, -50%);
+        transition: width 0.6s, height 0.6s;
+    }
+    
+    .stButton > button:hover::before {
+        width: 300px;
+        height: 300px;
     }
     
     .stButton > button:hover {
-        transform: translateY(-3px);
-        box-shadow: 0 10px 30px rgba(102, 126, 234, 0.5);
+        transform: translateY(-5px) scale(1.05);
+        box-shadow: 0 15px 40px rgba(102, 126, 234, 0.6);
     }
     
     .stButton > button:active {
-        transform: translateY(-1px);
+        transform: translateY(-2px) scale(1.02);
     }
     
-    /* Sidebar kartları */
+    /* Sidebar kartları - Hover effects */
     .sidebar-card {
-        background: white;
+        background: rgba(255, 255, 255, 0.95);
         padding: 1.5rem;
-        border-radius: 15px;
-        box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+        border-radius: 20px;
+        box-shadow: 0 8px 25px rgba(0,0,0,0.1);
         margin-bottom: 1.5rem;
+        transition: all 0.3s ease;
+        border: 2px solid rgba(255,255,255,0.3);
+    }
+    
+    .sidebar-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 15px 40px rgba(0,0,0,0.15);
     }
     
     .sidebar-card h3 {
         color: #667eea;
-        font-size: 1.3rem;
+        font-size: 1.4rem;
         margin-bottom: 1rem;
-        font-weight: 700;
-    }
-    
-    /* Metrikler */
-    .metric-card {
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-        padding: 2rem;
-        border-radius: 15px;
-        text-align: center;
-        margin-bottom: 1rem;
-        box-shadow: 0 5px 20px rgba(102, 126, 234, 0.3);
-    }
-    
-    .metric-value {
-        font-size: 3rem;
         font-weight: 800;
-        color: white;
-        margin-bottom: 0.5rem;
     }
     
-    .metric-label {
-        color: rgba(255,255,255,0.9);
-        font-size: 1rem;
-        font-weight: 600;
-        text-transform: uppercase;
-        letter-spacing: 1px;
-    }
-    
-    /* Footer */
+    /* Footer - Fade in */
     .footer {
         text-align: center;
-        padding: 2rem;
+        padding: 2.5rem;
         color: white;
         margin-top: 3rem;
-        background: rgba(255,255,255,0.1);
-        backdrop-filter: blur(10px);
-        border-radius: 15px;
+        background: rgba(255,255,255,0.15);
+        backdrop-filter: blur(15px);
+        border-radius: 20px;
+        animation: fadeInUp 1s ease-out;
+    }
+    
+    @keyframes fadeInUp {
+        from {
+            opacity: 0;
+            transform: translateY(30px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
     }
     
     .footer p {
         margin: 0.5rem 0;
+        font-weight: 600;
     }
     
-    /* Scrollbar */
+    /* Scrollbar - Gradient */
     ::-webkit-scrollbar {
-        width: 10px;
+        width: 12px;
     }
     
     ::-webkit-scrollbar-track {
-        background: #f1f1f1;
+        background: rgba(255,255,255,0.1);
         border-radius: 10px;
     }
     
     ::-webkit-scrollbar-thumb {
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        background: linear-gradient(180deg, #667eea 0%, #764ba2 100%);
         border-radius: 10px;
+        transition: all 0.3s ease;
     }
     
     ::-webkit-scrollbar-thumb:hover {
-        background: linear-gradient(135deg, #764ba2 0%, #667eea 100%);
+        background: linear-gradient(180deg, #764ba2 0%, #f093fb 100%);
     }
     
-    /* Loading spinner */
+    /* Loading spinner - Custom */
     .stSpinner > div {
         border-top-color: #667eea !important;
+        animation: spin 1s linear infinite;
     }
     
-    /* Success/Error messages */
+    @keyframes spin {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+    }
+    
+    /* Success/Error messages - Slide in */
     .stSuccess, .stError, .stInfo {
-        border-radius: 12px;
-        padding: 1rem 1.5rem;
+        border-radius: 15px;
+        padding: 1.2rem 1.8rem;
+        animation: slideInLeft 0.5s ease-out;
+        font-weight: 600;
+    }
+    
+    @keyframes slideInLeft {
+        from {
+            opacity: 0;
+            transform: translateX(-50px);
+        }
+        to {
+            opacity: 1;
+            transform: translateX(0);
+        }
     }
     
     /* RESPONSIVE - Mobil uyumluluk */
@@ -323,26 +395,17 @@ st.markdown("""
             padding: 1.5rem;
         }
         
-        .chat-container {
-            padding: 1rem;
-            min-height: 300px;
-            max-height: 400px;
-        }
-        
         .input-container {
             padding: 1.5rem;
         }
         
-        .user-message {
+        .user-message, .bot-message {
             margin-left: 0;
-        }
-        
-        .bot-message {
             margin-right: 0;
         }
         
         .chat-message {
-            padding: 1rem;
+            padding: 1.2rem;
         }
         
         .message-content {
@@ -350,24 +413,8 @@ st.markdown("""
         }
         
         .stButton > button {
-            padding: 0.8rem 2rem;
+            padding: 1rem 2rem;
             font-size: 1rem;
-        }
-        
-        .welcome-message {
-            padding: 2rem 1rem;
-        }
-        
-        .welcome-message h3 {
-            font-size: 1.5rem;
-        }
-        
-        .welcome-message p {
-            font-size: 1rem;
-        }
-        
-        .metric-value {
-            font-size: 2rem;
         }
         
         .sidebar-card {
@@ -408,17 +455,10 @@ with col1:
                     </div>
                     """, unsafe_allow_html=True)
                 else:
-                    sources_html = ""
-                    if message.get('sources'):
-                        sources_html = '<div class="sources-container">📚 Kaynaklar: ' + \
-                                      ''.join([f'<span class="source-tag">{s}</span>' for s in message['sources']]) + \
-                                      '</div>'
-                    
                     st.markdown(f"""
                     <div class="chat-message bot-message">
                         <div class="message-label">⚖️ HUKUK DANIŞMANI</div>
                         <div class="message-content">{message["content"]}</div>
-                        {sources_html}
                     </div>
                     """, unsafe_allow_html=True)
         
