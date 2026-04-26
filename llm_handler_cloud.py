@@ -16,7 +16,7 @@ class LLMHandler:
             raise ValueError("GROQ_API_KEY environment variable bulunamadı!")
         
         self.api_key = api_key
-        self.model = "llama-3.1-70b-versatile"  # Ücretsiz ve güçlü model
+        self.model = "llama-3.3-70b-versatile"  # Güncel model
         self.api_url = "https://api.groq.com/openai/v1/chat/completions"
     
     def generate_response(self, query: str, context_docs: List[Dict]) -> str:
