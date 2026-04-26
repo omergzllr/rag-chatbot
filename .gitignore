@@ -1,0 +1,32 @@
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+venv/
+ENV/
+.venv/
+
+# Vektör veritabanı
+vector_db/
+
+# Soru logu
+questions_log.json
+
+# Model cache
+.cache/
+models/
+
+# Streamlit
+.streamlit/secrets.toml
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
