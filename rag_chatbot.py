@@ -6,11 +6,8 @@ from typing import Dict
 from pdf_processor import PDFProcessor
 from vector_store import VectorStore
 
-# Cloud deployment için LLM handler seçimi
-if os.getenv("OPENAI_API_KEY"):
-    from llm_handler_cloud import LLMHandler
-else:
-    from llm_handler import LLMHandler
+# Cloud deployment için LLM handler seçimi - lazy import
+LLMHandler = None
 
 
 class RAGChatbot:
@@ -19,6 +16,17 @@ class RAGChatbot:
     def __init__(self):
         self.pdf_processor = PDFProcessor()
         self.vector_store = VectorStore()
+        
+        # LLM handler'ı lazy load et
+        global LLMHandler
+        if LLMHandler is None:
+            if os.getenv("OPENAI_API_KEY"):
+                from llm_handler_cloud import LLMHandler as CloudHandler
+                LLMHandler = CloudHandler
+            else:
+                from llm_handler import LLMHandler as LocalHandler
+                LLMHandler = LocalHandler
+        
         self.llm_handler = LLMHandler()
         self.questions_log_file = "questions_log.json"
         self._load_questions_log()
