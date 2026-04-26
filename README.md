@@ -11,6 +11,18 @@ ollama pull llama3
 streamlit run app.py
 ```
 
+### Profesyonel Web Stack (Next.js + Python API)
+```bash
+# 1) Python API
+pip install -r requirements.txt
+python api_server.py
+
+# 2) Yeni web arayuzu
+cd web
+npm install
+npm run dev
+```
+
 ### Cloud Deployment (Streamlit Cloud)
 1. OpenAI API key al: https://platform.openai.com/api-keys
 2. GitHub'a yükle

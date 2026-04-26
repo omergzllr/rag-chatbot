@@ -37,7 +37,26 @@ CEVAP:"""
             )
             return response['response']
         except Exception as e:
-            return f"LLM hatası: {e}\n\nLütfen Ollama'nın çalıştığından ve '{self.model_name}' modelinin yüklü olduğundan emin olun."
+            # Ollama ayakta degilse kullaniciya teknik hata yerine
+            # bulunan kaynaklardan kisa bir ozet don.
+            snippets = []
+            for doc in context_docs[:3]:
+                src = doc.get("metadata", {}).get("source", "Bilinmeyen kaynak")
+                text = str(doc.get("content", "")).replace("\n", " ").strip()
+                if text:
+                    snippets.append(f"- {src}: {text[:280]}...")
+
+            if snippets:
+                return (
+                    "Otomatik model servisine su an baglanilamiyor. "
+                    "Asagida ilgili kaynaklardan ozet bolumler yer aliyor:\n\n"
+                    + "\n".join(snippets)
+                )
+
+            return (
+                f"LLM hatasi: {e}\n\n"
+                f"Lutfen Ollama'nin calistigindan ve '{self.model_name}' modelinin yuklu oldugundan emin olun."
+            )
     
     def check_model_availability(self) -> bool:
         """Model'in mevcut olup olmadığını kontrol eder"""

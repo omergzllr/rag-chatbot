@@ -33,3 +33,8 @@ models/
 # OS
 .DS_Store
 Thumbs.db
+
+# Next.js web
+web/node_modules/
+web/.next/
+web/.env.local

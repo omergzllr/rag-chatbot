@@ -59,32 +59,32 @@ class RAGChatbot:
     
     def initialize(self, force_reload: bool = False):
         """Sistemi başlatır ve PDF'leri yükler"""
-        print("🚀 RAG Chatbot başlatılıyor...")
+        print("[INIT] RAG Chatbot baslatiliyor...")
         
         if force_reload:
-            print("📚 PDF'ler yeniden yükleniyor...")
+            print("[INIT] PDF'ler yeniden yukleniyor...")
             self.vector_store.clear_database()
         
         # PDF'leri işle
         documents = self.pdf_processor.process_all_pdfs()
         
         if not documents:
-            print("⚠️  Hiç PDF bulunamadı. Lütfen 'pdfs' klasörüne PDF dosyaları ekleyin.")
+            print("[WARN] Hic PDF bulunamadi. Lutfen 'pdfs' klasorune PDF dosyalari ekleyin.")
             return False
         
         # Vektör veritabanına ekle
-        print("🔄 Belgeler vektör veritabanına ekleniyor...")
+        print("[INIT] Belgeler vektor veritabanina ekleniyor...")
         self.vector_store.add_documents(documents)
         
-        print("✅ Sistem hazır!")
+        print("[OK] Sistem hazir!")
         return True
     
     def ask(self, question: str) -> Dict:
         """Soru sorar ve cevap alır"""
-        print(f"\n❓ Soru: {question}")
+        print(f"\n[Q] Soru: {question}")
         
         # İlgili belgeleri bul
-        print("🔍 İlgili belgeler aranıyor...")
+        print("[SEARCH] Ilgili belgeler araniyor...")
         relevant_docs = self.vector_store.search(question)
         
         if not relevant_docs:
@@ -93,7 +93,7 @@ class RAGChatbot:
             found_in_docs = False
         else:
             # Cevap üret
-            print("💭 Cevap oluşturuluyor...")
+            print("[LLM] Cevap olusturuluyor...")
             answer = self.llm_handler.generate_response(question, relevant_docs)
             
             # Kaynakları topla
@@ -115,7 +115,7 @@ class RAGChatbot:
     def chat_loop(self):
         """Interaktif sohbet döngüsü"""
         print("\n" + "="*60)
-        print("🤖 Hukuk Chatbot'a Hoş Geldiniz!")
+        print("[BOT] Hukuk Chatbot'a Hos Geldiniz!")
         print("="*60)
         print("Komutlar:")
         print("  - Soru sormak için yazın")
@@ -124,10 +124,10 @@ class RAGChatbot:
         
         while True:
             try:
-                question = input("\n👤 Siz: ").strip()
+                question = input("\n[SIZ] ").strip()
                 
                 if question.lower() in ['çıkış', 'exit', 'quit', 'q']:
-                    print("👋 Görüşmek üzere!")
+                    print("[EXIT] Gorusmek uzere!")
                     break
                 
                 if not question:
@@ -135,11 +135,11 @@ class RAGChatbot:
                 
                 result = self.ask(question)
                 
-                print(f"\n🤖 Chatbot: {result['answer']}")
-                print(f"\n📚 Kaynaklar: {', '.join(result['sources'])}")
+                print(f"\n[BOT] {result['answer']}")
+                print(f"\n[SRC] {', '.join(result['sources'])}")
                 
             except KeyboardInterrupt:
-                print("\n\n👋 Görüşmek üzere!")
+                print("\n\n[EXIT] Gorusmek uzere!")
                 break
             except Exception as e:
-                print(f"\n❌ Hata: {e}")
+                print(f"\n[ERR] Hata: {e}")
