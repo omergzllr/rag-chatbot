@@ -77,8 +77,8 @@ st.markdown("""
         border-radius: 20px;
         padding: 2rem;
         box-shadow: 0 10px 40px rgba(0,0,0,0.15);
-        min-height: 400px;
-        max-height: 500px;
+        min-height: 200px;
+        max-height: 400px;
         overflow-y: auto;
         margin-bottom: 1.5rem;
     }
@@ -400,47 +400,40 @@ with col1:
         # Chat container
         st.markdown('<div class="chat-container">', unsafe_allow_html=True)
         
-        if not st.session_state.chat_history:
-            st.markdown("""
-            <div class="welcome-message">
-                <h3>👋 Hoş Geldiniz!</h3>
-                <p>Hukuki sorularınızı sormak için aşağıdaki alana yazın<br>veya sağdaki örnek sorulardan birini seçin.</p>
-            </div>
-            """, unsafe_allow_html=True)
-        
         # Chat geçmişini göster
-        for message in st.session_state.chat_history:
-            if message['role'] == 'user':
-                st.markdown(f"""
-                <div class="chat-message user-message">
-                    <div class="message-label">👤 SİZ</div>
-                    <div class="message-content">{message["content"]}</div>
-                </div>
-                """, unsafe_allow_html=True)
-            else:
-                sources_html = ""
-                if message.get('sources'):
-                    sources_html = '<div class="sources-container">📚 Kaynaklar: ' + \
-                                  ''.join([f'<span class="source-tag">{s}</span>' for s in message['sources']]) + \
-                                  '</div>'
-                
-                st.markdown(f"""
-                <div class="chat-message bot-message">
-                    <div class="message-label">⚖️ HUKUK DANIŞMANI</div>
-                    <div class="message-content">{message["content"]}</div>
-                    {sources_html}
-                </div>
-                """, unsafe_allow_html=True)
+        if st.session_state.chat_history:
+            for message in st.session_state.chat_history:
+                if message['role'] == 'user':
+                    st.markdown(f"""
+                    <div class="chat-message user-message">
+                        <div class="message-label">👤 SİZ</div>
+                        <div class="message-content">{message["content"]}</div>
+                    </div>
+                    """, unsafe_allow_html=True)
+                else:
+                    sources_html = ""
+                    if message.get('sources'):
+                        sources_html = '<div class="sources-container">📚 Kaynaklar: ' + \
+                                      ''.join([f'<span class="source-tag">{s}</span>' for s in message['sources']]) + \
+                                      '</div>'
+                    
+                    st.markdown(f"""
+                    <div class="chat-message bot-message">
+                        <div class="message-label">⚖️ HUKUK DANIŞMANI</div>
+                        <div class="message-content">{message["content"]}</div>
+                        {sources_html}
+                    </div>
+                    """, unsafe_allow_html=True)
         
         st.markdown('</div>', unsafe_allow_html=True)
         
-        # Soru girişi - Ortada
+        # Soru girişi - Her zaman görünür
         st.markdown('<div class="input-container">', unsafe_allow_html=True)
         with st.form(key='question_form', clear_on_submit=True):
             user_input = st.text_area(
                 "Sorunuz",
                 placeholder="Hukuki sorunuzu buraya yazın...\n\nÖrnek: Kira artış oranı nasıl belirlenir?",
-                height=100,
+                height=120,
                 label_visibility="collapsed"
             )
             
