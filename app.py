@@ -473,35 +473,6 @@ with col1:
         st.error(f"❌ Sistem başlatılamadı: {str(e)}", icon="❌")
 
 with col2:
-    # İstatistikler
-    st.markdown('<div class="sidebar-card"><h3>📊 İstatistikler</h3></div>', unsafe_allow_html=True)
-    
-    if os.path.exists("questions_log.json"):
-        with open("questions_log.json", 'r', encoding='utf-8') as f:
-            questions_log = json.load(f)
-        
-        total_questions = len(questions_log)
-        needs_research = sum(1 for q in questions_log if q.get('needs_research', False))
-        found_in_docs = total_questions - needs_research
-        
-        st.markdown(f"""
-        <div class="metric-card">
-            <div class="metric-value">{total_questions}</div>
-            <div class="metric-label">Toplam Soru</div>
-        </div>
-        """, unsafe_allow_html=True)
-        
-        st.markdown(f"""
-        <div class="metric-card">
-            <div class="metric-value">{found_in_docs}</div>
-            <div class="metric-label">Yanıtlanan</div>
-        </div>
-        """, unsafe_allow_html=True)
-    else:
-        st.info("Henüz soru sorulmadı", icon="ℹ️")
-    
-    st.markdown("<br>", unsafe_allow_html=True)
-    
     # Örnek sorular
     st.markdown('<div class="sidebar-card"><h3>💡 Örnek Sorular</h3></div>', unsafe_allow_html=True)
     
