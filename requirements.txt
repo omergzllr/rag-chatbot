@@ -5,4 +5,4 @@ chromadb==0.4.24
 sentence-transformers==2.7.0
 python-dotenv==1.0.0
 streamlit==1.32.0
-openai==1.14.0
+openai>=1.30.0
