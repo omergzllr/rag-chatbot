@@ -1,0 +1,134 @@
+{% extends "base.html" %}
+{% block title %}Asistan - Hukuk Destek Danışmanı{% endblock %}
+{% block content %}
+
+<section class="chat-section">
+    <div class="chat-layout">
+        <!-- Sol: Chat -->
+        <div class="chat-main">
+            <div class="chat-header">
+                <div class="chat-header-info">
+                    <div class="chat-avatar">⚖️</div>
+                    <div>
+                        <h2>Hukuk Asistanı</h2>
+                        <span class="status-dot"></span><span class="status-text">Çevrimiçi</span>
+                    </div>
+                </div>
+                <button class="clear-btn" id="clearChat">🗑️ Temizle</button>
+            </div>
+
+            <div class="chat-messages" id="chatMessages">
+                <div class="welcome-msg">
+                    <div class="welcome-icon">⚖️</div>
+                    <h3>Merhaba! Ben Hukuk Asistanınızım</h3>
+                    <p>Hukuki sorularınızı sormak için aşağıdaki alana yazın veya sağdaki örnek sorulardan birini seçin.</p>
+                </div>
+            </div>
+
+            <div class="chat-input-area">
+                <div class="input-wrapper">
+                    <textarea id="userInput" placeholder="Hukuki sorunuzu buraya yazın..." rows="3"></textarea>
+                    <button id="sendBtn" class="send-btn">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <line x1="22" y1="2" x2="11" y2="13"></line>
+                            <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+                        </svg>
+                    </button>
+                </div>
+                <p class="input-hint">Enter ile gönder · Shift+Enter ile yeni satır</p>
+            </div>
+        </div>
+
+        <!-- Sağ: Örnek Sorular -->
+        <div class="chat-sidebar">
+            <div class="sidebar-section">
+                <h3>💡 Örnek Sorular</h3>
+                <div class="example-questions">
+                    {% for q in example_questions %}
+                    <button class="example-btn" onclick="askQuestion('{{ q }}')">{{ q }}</button>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<script>
+const chatMessages = document.getElementById('chatMessages');
+const userInput = document.getElementById('userInput');
+const sendBtn = document.getElementById('sendBtn');
+
+function addMessage(content, role) {
+    const welcome = document.querySelector('.welcome-msg');
+    if (welcome) welcome.remove();
+
+    const div = document.createElement('div');
+    div.className = `message ${role}-message`;
+    div.innerHTML = `
+        <div class="message-label">${role === 'user' ? '👤 Siz' : '⚖️ Hukuk Danışmanı'}</div>
+        <div class="message-content">${content}</div>
+    `;
+    chatMessages.appendChild(div);
+    chatMessages.scrollTop = chatMessages.scrollHeight;
+}
+
+function addTyping() {
+    const div = document.createElement('div');
+    div.className = 'message bot-message typing-indicator';
+    div.id = 'typing';
+    div.innerHTML = `
+        <div class="message-label">⚖️ Hukuk Danışmanı</div>
+        <div class="typing-dots"><span></span><span></span><span></span></div>
+    `;
+    chatMessages.appendChild(div);
+    chatMessages.scrollTop = chatMessages.scrollHeight;
+}
+
+function removeTyping() {
+    const t = document.getElementById('typing');
+    if (t) t.remove();
+}
+
+async function sendMessage(question) {
+    const q = question || userInput.value.trim();
+    if (!q) return;
+
+    addMessage(q, 'user');
+    userInput.value = '';
+    sendBtn.disabled = true;
+    addTyping();
+
+    try {
+        const res = await fetch('/api/chat', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ question: q })
+        });
+        const data = await res.json();
+        removeTyping();
+        addMessage(data.answer, 'bot');
+    } catch (e) {
+        removeTyping();
+        addMessage('Bir hata oluştu. Lütfen tekrar deneyin.', 'bot');
+    }
+
+    sendBtn.disabled = false;
+}
+
+function askQuestion(q) { sendMessage(q); }
+
+sendBtn.addEventListener('click', () => sendMessage());
+userInput.addEventListener('keydown', e => {
+    if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); sendMessage(); }
+});
+
+document.getElementById('clearChat').addEventListener('click', () => {
+    chatMessages.innerHTML = `
+        <div class="welcome-msg">
+            <div class="welcome-icon">⚖️</div>
+            <h3>Merhaba! Ben Hukuk Asistanınızım</h3>
+            <p>Hukuki sorularınızı sormak için aşağıdaki alana yazın.</p>
+        </div>`;
+});
+</script>
+{% endblock %}

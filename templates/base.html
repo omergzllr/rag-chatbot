@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Hukuk Destek Danışmanı{% endblock %}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="/" class="nav-logo">⚖️ Hukuk Destek</a>
+            <div class="nav-links">
+                <a href="/" class="nav-link {% if request.path == '/' %}active{% endif %}">Ana Sayfa</a>
+                <a href="/chat" class="nav-link {% if request.path == '/chat' %}active{% endif %}">Asistan</a>
+                <a href="/about" class="nav-link {% if request.path == '/about' %}active{% endif %}">Hakkında</a>
+                <a href="/contact" class="nav-link {% if request.path == '/contact' %}active{% endif %}">İletişim</a>
+            </div>
+            <a href="/chat" class="nav-cta">Hemen Başla →</a>
+            <button class="hamburger" id="hamburger">☰</button>
+        </div>
+        <div class="mobile-menu" id="mobileMenu">
+            <a href="/" class="mobile-link">Ana Sayfa</a>
+            <a href="/chat" class="mobile-link">Asistan</a>
+            <a href="/about" class="mobile-link">Hakkında</a>
+            <a href="/contact" class="mobile-link">İletişim</a>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main>
+        {% block content %}{% endblock %}
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-container">
+            <div class="footer-brand">
+                <span class="footer-logo">⚖️ Hukuk Destek Danışmanı</span>
+                <p>Hukukçular için özel olarak tasarlanmış yapay zeka destekli asistan</p>
+            </div>
+            <div class="footer-links">
+                <a href="/">Ana Sayfa</a>
+                <a href="/chat">Asistan</a>
+                <a href="/about">Hakkında</a>
+                <a href="/contact">İletişim</a>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>© 2026 Hukuk Destek Danışmanı · İstenildiği şekilde eğitilebilir · Özelleştirilebilir · Büyütülebilir AI</p>
+        </div>
+    </footer>
+
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+</body>
+</html>

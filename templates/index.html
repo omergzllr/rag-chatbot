@@ -1,0 +1,112 @@
+{% extends "base.html" %}
+{% block title %}Ana Sayfa - Hukuk Destek Danışmanı{% endblock %}
+{% block content %}
+
+<!-- Hero -->
+<section class="hero">
+    <div class="hero-content">
+        <div class="hero-badge">🚀 Yapay Zeka Destekli</div>
+        <h1 class="hero-title">Hukukçular için<br><span class="gradient-text">AI Asistan</span></h1>
+        <p class="hero-subtitle">
+            İstenildiği şekilde eğitilebilir, özelleştirilebilir ve büyütülebilir hukuk yapay zeka teknolojisi.
+            Kendi belgelerinizle besleyin, firmanıza özel asistan oluşturun.
+        </p>
+        <div class="hero-buttons">
+            <a href="/chat" class="btn-primary">💬 Asistanı Dene</a>
+            <a href="/about" class="btn-secondary">Nasıl Çalışır? →</a>
+        </div>
+    </div>
+    <div class="hero-visual">
+        <div class="chat-preview">
+            <div class="preview-header">
+                <span class="preview-dot red"></span>
+                <span class="preview-dot yellow"></span>
+                <span class="preview-dot green"></span>
+                <span class="preview-title">Hukuk Asistanı</span>
+            </div>
+            <div class="preview-messages">
+                <div class="preview-msg user">Kira artış oranı nasıl belirlenir?</div>
+                <div class="preview-msg bot">TBK Madde 344'e göre kira artış oranı TÜFE 12 aylık ortalamasını aşamaz. Bu kural konut kiralarında emredici niteliktedir...</div>
+                <div class="preview-msg user">Depozito en fazla kaç ay olabilir?</div>
+                <div class="preview-msg bot typing"><span></span><span></span><span></span></div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Stats -->
+<section class="stats-section">
+    <div class="container">
+        <div class="stats-grid">
+            <div class="stat-item">
+                <div class="stat-number" data-target="20">0</div>
+                <div class="stat-label">Hukuk Alanı</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number" data-target="80">0</div>
+                <div class="stat-label">Soru-Cevap</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number">7/24</div>
+                <div class="stat-label">Kesintisiz Hizmet</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number">%100</div>
+                <div class="stat-label">Ücretsiz</div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Features -->
+<section class="features-section">
+    <div class="container">
+        <div class="section-header">
+            <h2>Neden Hukuk Destek Danışmanı?</h2>
+            <p>Hukuk firmalarına ve hukukçulara özel geliştirilmiş AI teknolojisi</p>
+        </div>
+        <div class="features-grid">
+            <div class="feature-card">
+                <div class="feature-icon">🤖</div>
+                <h3>Yapay Zeka Destekli</h3>
+                <p>En gelişmiş AI teknolojisi ile hukuki sorularınıza anında yanıt alın.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">📚</div>
+                <h3>Geniş Bilgi Tabanı</h3>
+                <p>20+ hukuk alanında uzmanlaşmış bilgi tabanı. Sürekli güncellenen içerik.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">🎯</div>
+                <h3>Özelleştirilebilir</h3>
+                <p>Kendi belgelerinizle eğitin. Firmanıza özel hukuki bilgi tabanı oluşturun.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">⚡</div>
+                <h3>Hızlı ve Güvenilir</h3>
+                <p>Saniyeler içinde doğru yanıtlar. 7/24 kesintisiz hizmet.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">🔒</div>
+                <h3>Güvenli</h3>
+                <p>Tüm verileriniz şifreli ve güvende. Gizlilik politikalarına tam uyum.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">📈</div>
+                <h3>Büyütülebilir</h3>
+                <p>İhtiyaçlarınıza göre büyüyen, gelişen ve öğrenen AI sistemi.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- CTA -->
+<section class="cta-section">
+    <div class="container">
+        <h2>Hemen Deneyin</h2>
+        <p>Hukuki sorularınızı sorun, anında yanıt alın</p>
+        <a href="/chat" class="btn-primary btn-large">💬 Asistanı Başlat</a>
+    </div>
+</section>
+
+{% endblock %}

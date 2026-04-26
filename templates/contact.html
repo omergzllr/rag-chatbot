@@ -1,0 +1,104 @@
+{% extends "base.html" %}
+{% block title %}İletişim - Hukuk Destek Danışmanı{% endblock %}
+{% block content %}
+
+<section class="page-hero">
+    <div class="container">
+        <h1>İletişim</h1>
+        <p>Bizimle iletişime geçin, size yardımcı olalım</p>
+    </div>
+</section>
+
+<section class="contact-section">
+    <div class="container">
+        <div class="contact-grid">
+            <div class="contact-info-col">
+                <div class="contact-card">
+                    <h2>📬 İletişim Bilgileri</h2>
+                    <div class="contact-item">
+                        <span class="contact-icon">📧</span>
+                        <div><div class="contact-label">E-posta</div><div class="contact-value">info@hukukdestek.ai</div></div>
+                    </div>
+                    <div class="contact-item">
+                        <span class="contact-icon">🌐</span>
+                        <div><div class="contact-label">Web</div><div class="contact-value">www.hukukdestek.ai</div></div>
+                    </div>
+                    <div class="contact-item">
+                        <span class="contact-icon">📍</span>
+                        <div><div class="contact-label">Konum</div><div class="contact-value">İstanbul, Türkiye</div></div>
+                    </div>
+                    <div class="contact-item">
+                        <span class="contact-icon">⏰</span>
+                        <div><div class="contact-label">Destek</div><div class="contact-value">7/24 AI Desteği</div></div>
+                    </div>
+                </div>
+
+                <div class="contact-card">
+                    <h2>🚀 Özel Çözümler</h2>
+                    <ul class="custom-list">
+                        <li>Kendi belgelerinizle eğitilmiş özel model</li>
+                        <li>Firma markanıza uygun tasarım</li>
+                        <li>API entegrasyonu</li>
+                        <li>Teknik destek ve bakım</li>
+                        <li>Çoklu kullanıcı desteği</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="contact-form-col">
+                <div class="contact-card">
+                    <h2>✉️ Mesaj Gönderin</h2>
+                    <form id="contactForm" class="contact-form">
+                        <div class="form-group">
+                            <label>Ad Soyad</label>
+                            <input type="text" name="name" placeholder="Adınız ve soyadınız" required>
+                        </div>
+                        <div class="form-group">
+                            <label>E-posta</label>
+                            <input type="email" name="email" placeholder="ornek@email.com" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Konu</label>
+                            <select name="subject">
+                                <option>Genel Bilgi</option>
+                                <option>Özel Çözüm Talebi</option>
+                                <option>Teknik Destek</option>
+                                <option>İş Birliği</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Mesajınız</label>
+                            <textarea name="message" rows="5" placeholder="Mesajınızı buraya yazın..." required></textarea>
+                        </div>
+                        <button type="submit" class="btn-primary btn-full">📤 Gönder</button>
+                        <div id="formMsg" class="form-message"></div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<script>
+document.getElementById('contactForm').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const form = e.target;
+    const data = Object.fromEntries(new FormData(form));
+    
+    try {
+        const res = await fetch('/api/contact', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(data)
+        });
+        const result = await res.json();
+        const msg = document.getElementById('formMsg');
+        msg.textContent = '✅ Mesajınız alındı! En kısa sürede dönüş yapacağız.';
+        msg.className = 'form-message success';
+        form.reset();
+    } catch (e) {
+        document.getElementById('formMsg').textContent = '❌ Bir hata oluştu.';
+    }
+});
+</script>
+{% endblock %}
