@@ -10,9 +10,11 @@ ENV/
 
 # Vektör veritabanı
 vector_db/
+vector_db_v2/
 
 # Soru logu
 questions_log.json
+telemetry_log.jsonl
 
 # Model cache
 .cache/

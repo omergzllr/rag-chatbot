@@ -23,6 +23,26 @@ npm install
 npm run dev
 ```
 
+### Windows Notu (python komutu calismiyorsa)
+Bu depoda backend calismasi icin gercek Python kurulumuna ihtiyac vardir. Eger `python` veya `py` komutu "Sistem dosyaya erisemiyor" benzeri hata verirse:
+
+1. Python 3.11+ kurun (resmi installer)
+2. Kurulumda `Add python.exe to PATH` secenegini aktif edin
+3. Yeni terminalde dogrulayin:
+```bash
+python --version
+pip --version
+```
+4. Ardindan:
+```bash
+pip install -r requirements.txt
+python api_server.py
+```
+
+LLM secimi:
+- Cloud: `GROQ_API_KEY` tanimliysa Groq modeli kullanilir
+- Lokal: `GROQ_API_KEY` yoksa Ollama kullanilir (`ollama` paketi + yüklü model gerekir)
+
 ### Cloud Deployment (Streamlit Cloud)
 1. OpenAI API key al: https://platform.openai.com/api-keys
 2. GitHub'a yükle

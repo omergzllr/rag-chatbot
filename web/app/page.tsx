@@ -120,6 +120,9 @@ export default function HomePage() {
             </p>
 
             <div className="mt-8 flex flex-wrap items-center gap-4">
+              <Link href="/citizen" className="btn-gold">
+                Halk Icin Hukuk Modulu
+              </Link>
               <Link href="/demo" className="btn-gold">
                 Hemen Sor
               </Link>

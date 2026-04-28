@@ -30,32 +30,37 @@ class RAGChatbot:
                 LLMHandler = LocalHandler
         
         self.llm_handler = LLMHandler()
-        self.questions_log_file = "questions_log.json"
+        self.questions_log_file = "telemetry_log.jsonl"
         self._load_questions_log()
     
     def _load_questions_log(self):
         """Soru logunu yükle veya oluştur"""
         if os.path.exists(self.questions_log_file):
-            with open(self.questions_log_file, 'r', encoding='utf-8') as f:
-                self.questions_log = json.load(f)
+            try:
+                with open(self.questions_log_file, 'r', encoding='utf-8') as f:
+                    self.questions_log = [json.loads(line) for line in f if line.strip()]
+            except Exception:
+                self.questions_log = []
         else:
             self.questions_log = []
     
     def _save_question(self, question: str, answer: str, sources: list, found_in_docs: bool):
         """Soruyu JSON'a kaydet"""
         log_entry = {
-            'timestamp': datetime.now().isoformat(),
-            'question': question,
-            'answer': answer,
-            'sources': sources,
-            'found_in_docs': found_in_docs,
-            'needs_research': not found_in_docs
+            "event_type": "rag_question_answered",
+            "timestamp": datetime.now().isoformat(),
+            "question": question,
+            "answer_preview": answer[:300],
+            "sources": sources,
+            "source_count": len(sources),
+            "found_in_docs": found_in_docs,
+            "needs_research": not found_in_docs,
         }
         
         self.questions_log.append(log_entry)
         
-        with open(self.questions_log_file, 'w', encoding='utf-8') as f:
-            json.dump(self.questions_log, f, ensure_ascii=False, indent=2)
+        with open(self.questions_log_file, 'a', encoding='utf-8') as f:
+            f.write(json.dumps(log_entry, ensure_ascii=False) + "\n")
     
     def initialize(self, force_reload: bool = False):
         """Sistemi başlatır ve PDF'leri yükler"""

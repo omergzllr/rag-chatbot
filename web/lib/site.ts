@@ -5,6 +5,7 @@ export const siteConfig = {
     "HUKUK RAG, gelismis yapay zeka teknolojisi ile mevzuat, ictihat ve doktrin bilgilerine dayali dogru ve guncel yanitlar sunar.",
   nav: [
     { href: "/", label: "Ana Sayfa" },
+    { href: "/citizen", label: "Halk Icin Hukuk" },
     { href: "/about", label: "Hakkimizda" },
     { href: "/features", label: "Hizmetler" },
     { href: "/faq", label: "S.S.S" },

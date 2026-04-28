@@ -5,6 +5,7 @@ import traceback
 from flask import Flask, jsonify, request
 from flask_cors import CORS
 from functools import lru_cache
+from citizen import CitizenFlowService
 
 RAGChatbot = None
 RAG_IMPORT_ERROR = None
@@ -24,6 +25,7 @@ except Exception as import_exc:  # noqa: BLE001
 
 app = Flask(__name__)
 CORS(app)
+citizen_service = CitizenFlowService()
 
 
 @lru_cache(maxsize=1)
@@ -96,6 +98,72 @@ def api_chat() -> tuple:
             ),
             500,
         )
+
+
+@app.post("/api/rag/initialize")
+def initialize_rag() -> tuple:
+    payload = request.get_json(silent=True) or {}
+    force_reload = bool(payload.get("force_reload", False))
+    if RAGChatbot is None:
+        return jsonify({"error": "RAGChatbot import edilemedi", "details": RAG_IMPORT_ERROR}), 500
+    try:
+        with contextlib.redirect_stdout(io.StringIO()), contextlib.redirect_stderr(io.StringIO()):
+            ok = get_chatbot().initialize(force_reload=force_reload)
+        return jsonify({"initialized": bool(ok), "force_reload": force_reload}), 200
+    except Exception as exc:  # noqa: BLE001
+        return jsonify({"error": "RAG initialize hatasi", "details": str(exc)}), 500
+
+
+@app.get("/api/citizen/doc-types")
+def citizen_doc_types() -> tuple:
+    return jsonify({"items": citizen_service.list_document_types()}), 200
+
+
+@app.post("/api/citizen/session/start")
+def citizen_start_session() -> tuple:
+    payload = request.get_json(silent=True) or {}
+    doc_type = str(payload.get("doc_type", "")).strip()
+    initial_prompt = str(payload.get("prompt", "")).strip()
+    if not doc_type:
+        return jsonify({"error": "doc_type gerekli"}), 400
+    try:
+        result = citizen_service.start_session(doc_type=doc_type, initial_prompt=initial_prompt)
+        return jsonify(result), 200
+    except Exception as exc:  # noqa: BLE001
+        return jsonify({"error": str(exc)}), 400
+
+
+@app.post("/api/citizen/session/<session_id>/message")
+def citizen_send_message(session_id: str) -> tuple:
+    payload = request.get_json(silent=True) or {}
+    message = str(payload.get("message", "")).strip()
+    if not message:
+        return jsonify({"error": "message gerekli"}), 400
+    try:
+        result = citizen_service.submit_user_message(session_id=session_id, message=message)
+        return jsonify(result), 200
+    except Exception as exc:  # noqa: BLE001
+        return jsonify({"error": str(exc)}), 400
+
+
+@app.get("/api/citizen/session/<session_id>")
+def citizen_get_session(session_id: str) -> tuple:
+    try:
+        result = citizen_service.get_session(session_id=session_id)
+        return jsonify(result), 200
+    except Exception as exc:  # noqa: BLE001
+        return jsonify({"error": str(exc)}), 404
+
+
+@app.post("/api/citizen/assist")
+def citizen_assist() -> tuple:
+    payload = request.get_json(silent=True) or {}
+    narrative = str(payload.get("narrative", "")).strip()
+    city = str(payload.get("city", "istanbul")).strip() or "istanbul"
+    if not narrative:
+        return jsonify({"error": "narrative gerekli"}), 400
+    result = citizen_service.run_citizen_assist(narrative=narrative, city=city)
+    return jsonify(result), 200
 
 
 if __name__ == "__main__":

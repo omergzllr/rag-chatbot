@@ -1,0 +1,40 @@
+{
+  "consumer": {
+    "default": {
+      "application_fee_try": 0,
+      "notification_fee_try": 250,
+      "expert_fee_try": 1500
+    },
+    "istanbul": {
+      "application_fee_try": 0,
+      "notification_fee_try": 300,
+      "expert_fee_try": 1800
+    }
+  },
+  "rental": {
+    "default": {
+      "application_fee_try": 500,
+      "notification_fee_try": 300,
+      "expert_fee_try": 2500
+    },
+    "istanbul": {
+      "application_fee_try": 650,
+      "notification_fee_try": 350,
+      "expert_fee_try": 3000
+    }
+  },
+  "employment": {
+    "default": {
+      "application_fee_try": 400,
+      "notification_fee_try": 250,
+      "expert_fee_try": 2200
+    }
+  },
+  "criminal": {
+    "default": {
+      "application_fee_try": 0,
+      "notification_fee_try": 250,
+      "expert_fee_try": 0
+    }
+  }
+}

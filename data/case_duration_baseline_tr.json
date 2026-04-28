@@ -1,0 +1,28 @@
+{
+  "consumer": {
+    "default": {
+      "estimated_month_range": "3-8 ay"
+    },
+    "istanbul": {
+      "estimated_month_range": "4-10 ay"
+    }
+  },
+  "rental": {
+    "default": {
+      "estimated_month_range": "6-14 ay"
+    },
+    "istanbul": {
+      "estimated_month_range": "8-16 ay"
+    }
+  },
+  "employment": {
+    "default": {
+      "estimated_month_range": "5-12 ay"
+    }
+  },
+  "criminal": {
+    "default": {
+      "estimated_month_range": "4-18 ay"
+    }
+  }
+}
